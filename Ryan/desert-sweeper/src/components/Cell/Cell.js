@@ -4,6 +4,7 @@ class Cell extends React.Component {
   constructor(props) {
     super(props);
     this.cellClassNames = this.cellClassNames.bind(this);
+    this.renderGem = this.renderGem.bind(this);
     this.handleCellClick = this.handleCellClick.bind(this);
   }
 
@@ -48,6 +49,13 @@ class Cell extends React.Component {
     return className;
   }
 
+  renderGem() {
+    if (this.props.isRevealed && this.props.isGem) {
+      console.log('gem');
+      return <img src="/../gem.gif" />;
+    }
+  }
+
   handleCellClick(e) {
     this.props.cellClick(e, this.props.row, this.props.column);
   }
@@ -57,6 +65,7 @@ class Cell extends React.Component {
       <div className={this.cellClassNames()} onClick={this.handleCellClick}>
         <span className="top-corners"></span>
         <span className="bottom-corners"></span>
+        {this.renderGem()}
         <span className="number">{this.props.isRevealed ? this.props.adjacentBombs : '' }</span>
       </div>
     );
