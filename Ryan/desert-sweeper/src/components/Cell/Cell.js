@@ -15,6 +15,12 @@ class Cell extends React.Component {
     if (this.props.isRevealed) {
       className += ` cell-${this.props.adjacentBombs}`;
     }
+    if (this.props.isRevealed && this.props.isGem) {
+      className += ' gem';
+    }
+    if (this.props.isObelisk) {
+      className += ' obelisk';
+    }
     if (this.props.nwRevealed) {
       className += ' nw-revealed';
     }
@@ -49,7 +55,9 @@ class Cell extends React.Component {
   render() {
     return (
       <div className={this.cellClassNames()} onClick={this.handleCellClick}>
-        <span>{this.props.isRevealed ? this.props.adjacentBombs : '' }</span>
+        <span className="top-corners"></span>
+        <span className="bottom-corners"></span>
+        <span className="number">{this.props.isRevealed ? this.props.adjacentBombs : '' }</span>
       </div>
     );
   }

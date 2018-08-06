@@ -17,51 +17,192 @@ $water-border: #B4F0F0;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     background-color: $desert;
     font-weight: bold;
-    border: 5px solid $desert;
     user-select: none;
     &:after {
       content: "";
       position: absolute;
-      top: -5px;
-      left: -5px;
-      width: calc(100% + 10px);
-      height: calc(100% + 10px);
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       box-shadow: inset 1px 1px 0 rgba(100, 100, 100, .1);
       pointer-events: none;
     }
     &.flagged {
-      background-color: #caa;
+      &:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("/../pyramid.png");
+        background-size: 100% 100%;
+      }
     }
 
+    &.obelisk {
+      filter: hue-rotate(330deg);
+    }
+
+    span.top-corners,
+    span.bottom-corners {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      &:before,
+      &:after {
+        content: "";
+        position: absolute;
+        width: 50%;
+        height: 50%;
+        background-image: url("/../desert-sprite.png");
+        background-size: 1600% 200%;
+        background-position: -1100% 0;
+      }
+    }
+
+    span.top-corners {
+      &:before {
+        top: 0;
+        left: 0;
+      }
+      &:after {
+        top: 0;
+        right: 0;
+      }
+    }
+
+    span.bottom-corners {
+      &:before {
+        bottom: 0;
+        left: 0;
+      }
+      &:after {
+        right: 0;
+        bottom: 0;
+      }
+    }
+    
+    // North edge border highlight
     &.n-revealed {
-      border-top-color: $desert-border-light;
-    }
-    &.e-revealed {
-      border-right-color: $desert-border-dark;
-    }
-    &.s-revealed {
-      border-bottom-color: $desert-border-dark;
-    }
-    &.w-revealed {
-      border-left-color: $desert-border-light;
+      span.top-corners:before {
+        background-position: -400% 0;
+      }
+      span.top-corners:after {
+        background-position: -500% 0;
+      }
+      &.nw-revealed {
+        span.top-corners:before {
+          background-position: -200% 0; 
+        }
+      }
+      &.ne-revealed {
+        span.top-corners:after {
+          background-position: -300% 0;
+        }
+      }
     }
 
+    // East edge border shadow
+    &.e-revealed {
+      span.top-corners:after {
+        background-position: -900% 0;
+      }
+      span.bottom-corners:after {
+        background-position: -900% -100%;
+      }
+      &.ne-revealed {
+        span.top-corners:after {
+          background-position: -700% 0;
+        }
+      }
+      &.se-revealed {
+        span.bottom-corners:after {
+          background-position: -700% -100%;
+        }
+      }
+    }
+
+    // South edge border shadow
+    &.s-revealed {
+      span.bottom-corners:after {
+        background-position: -500% -100%;
+      }
+      span.bottom-corners:before {
+        background-position: -400% -100%;
+      }
+      &.se-revealed {
+        span.bottom-corners:after {
+          background-position: -300% -100%;
+        }
+      }
+      &.sw-revealed {
+        span.bottom-corners:before {
+          background-position: -200% -100%;
+        }
+      }
+    }
+
+    // West edge border hightlight
+    &.w-revealed {
+      span.bottom-corners:before {
+        background-position: -800% -100%;
+      }
+      span.top-corners:before {
+        background-position: -800% 0;
+      }
+      &.nw-revealed {
+        span.top-corners:before {
+          background-position: -600% 0;
+        }
+      }
+      &.sw-revealed {
+        span.bottom-corners:before {
+          background-position: -600% -100%;
+        }
+      }
+    }
+
+    // Northwest corner rounding
     &.n-revealed.w-revealed {
-      border-top-left-radius: 10px;
+      span.top-corners:before {
+        background-position: 0 0;
+      }
     }
+
+    // Northeast corner rounding
     &.n-revealed.e-revealed {
-      border-top-right-radius: 10px;
+      span.top-corners:after {
+        background-position: -100% 0;
+      }
     }
+
+    // Southeast corner rounding
     &.s-revealed.e-revealed {
-      border-bottom-right-radius: 10px;
+      span.bottom-corners:after {
+        background-position: -100% -100%;
+      }
     }
+
+    // Southwest corner rounding
     &.s-revealed.w-revealed {
-      border-bottom-left-radius: 10px;
+      span.bottom-corners:before {
+        background-position: 0 -100%;
+      }
     }
+
+    // Water cells
     &.cell-0,
     &.cell-1,
     &.cell-2,
@@ -72,77 +213,93 @@ $water-border: #B4F0F0;
     &.cell-7,
     &.cell-8 {
       background-color: $water;
-      border-top: 5px solid $desert-border-dark;
-      border-right: 5px solid $desert-border-light;
-      border-bottom: 5px solid $desert-border-light;
-      border-left: 5px solid $desert-border-dark;
-      border-radius: 0;
-      span {
-        position: absolute;
-        top: -5px;
-        left: -5px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: calc(100% + 10px);
-        height: calc(100% + 10px);
-        background-color: $water;
-        border-radius: 10px;
+      span.number {
+        position: relative;
+        z-index: 100;
+      }
+      span.top-corners {
+        &:before {
+          background-position: -1400% 0;
+        }
+        &:after {
+          background-position: -1500% 0;
+        }
+      }
+      span.bottom-corners {
+        &:before {
+          background-position: -1400% -100%;
+        }
+        &:after {
+          background-position: -1500% -100%;
+        }
       }
       &:after {
-        top: -5px;
-        left: -5px;
-        width: calc(100% + 10px);
-        height: calc(100 + 10px);
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      &.gem {
+        background-color: #faf;
+        span.top-corners,
+        span.bottom-corners {
+          &:before,
+          &:after {
+            background-image: none;
+          }
+        }
       }
 
       &.nw-revealed {
-        span {
-          border-top-left-radius: 0;
+        span.top-corners:before {
+          background-position: -1200% 0;
         }
       }
       &.n-revealed {
-        span {
-          border-top-left-radius: 0;
-          border-top-right-radius: 0;
+        span.top-corners:before,
+        span.top-corners:after {
+          background-position: -1200% 0;
         }
       }
       &.ne-revealed {
-        span {
-          border-top-right-radius: 0;
+        span.top-corners:after {
+          background-position: -1200% 0;
         }
       }
       &.e-revealed {
-        span {
-          border-top-right-radius: 0;
-          border-bottom-right-radius: 0;
+        span.top-corners:after,
+        span.bottom-corners:after {
+          background-position: -1200% 0;
         }
       }
       &.se-revealed {
-        span {
-          border-bottom-right-radius: 0;
+        span.bottom-corners:after {
+          background-position: -1200% 0;
         }
       }
       &.s-revealed {
-        span {
-          border-bottom-right-radius: 0;
-          border-bottom-left-radius: 0;
+        span.bottom-corners:after,
+        span.bottom-corners:before {
+          background-position: -1200% 0;
         }
       }
       &.sw-revealed {
-        span {
-          border-bottom-left-radius: 0;
+        span.bottom-corners:before {
+          background-position: -1200% 0;
         }
       }
       &.w-revealed {
-        span {
-          border-bottom-left-radius: 0;
-          border-top-left-radius: 0;
+        span.bottom-corners:before,
+        span.top-corners:before {
+          background-position: -1200% 0;
         }
       }
     }
     &.cell-0 {
-      text-indent: -999px;
+      span.number {
+        text-indent: -9999px;
+      }
     }
     &.cell-1 {
       color: #00c;

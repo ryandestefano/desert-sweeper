@@ -1,0 +1,267 @@
+$desert: #FAE650;
+$desert-border-light: #FAF58C;
+$desert-border-dark: #FAD241;
+$water: #D7FAFA;
+$water-border: #B4F0F0;
+
+* {
+  box-sizing: border-box;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  background-color: $water;
+  .cell {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background-color: $desert;
+    font-weight: bold;
+    border: 5px solid $desert;
+    user-select: none;
+    &:after {
+      content: "";
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      width: calc(100% + 10px);
+      height: calc(100% + 10px);
+      box-shadow: inset 1px 1px 0 rgba(100, 100, 100, .1);
+      pointer-events: none;
+    }
+    &.flagged {
+      background-color: #caa;
+    }
+    span.top-corners,
+    span.bottom-corners {
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: calc(100% + 10px);
+      height: calc(100% + 10px);
+      pointer-events: none;
+      &:before,
+      &:after {
+        content: "";
+        position: absolute;
+        width: 5px;
+        height: 5px;
+      }
+    }
+
+    span.top-corners {
+      &:before {
+        top: 0;
+        left: 0;
+      }
+      &:after {
+        top: 0;
+        right: 0;
+      }
+    }
+
+    span.bottom-corners {
+      &:before {
+        bottom: 0;
+        left: 0;
+      }
+      &:after {
+        right: 0;
+        bottom: 0;
+      }
+    }
+    
+    // North edge border highlight
+    &.n-revealed {
+      border-top-color: $desert-border-light;
+      &.nw-revealed {
+        span.top-corners:before {
+          background-color: $desert-border-light;
+        }
+      }
+      &.ne-revealed {
+        span.top-corners:after {
+          background-color: $desert-border-light;
+        }
+      }
+    }
+
+    // East edge border shadow
+    &.e-revealed {
+      border-right-color: $desert-border-dark;
+      &.ne-revealed {
+        span.top-corners:after {
+          background-color: $desert-border-dark;
+        }
+      }
+      &.se-revealed {
+        span.bottom-corners:after {
+          background-color: $desert-border-dark;
+        }
+      }
+    }
+
+    // South edge border shadow
+    &.s-revealed {
+      border-bottom-color: $desert-border-dark;
+      &.se-revealed {
+        span.bottom-corners:after {
+          background-color: $desert-border-dark;
+        }
+      }
+      &.sw-revealed {
+        span.bottom-corners:before {
+          background-color: $desert-border-dark;
+        }
+      }
+    }
+
+    // West edge border hightlight
+    &.w-revealed {
+      border-left-color: $desert-border-light;
+      &.nw-revealed {
+        span.top-corners:before {
+          background-color: $desert-border-light;
+        }
+      }
+      &.sw-revealed {
+        span.bottom-corners:before {
+          background-color: $desert-border-light;
+        }
+      }
+    }
+
+    // Northwest corner rounding
+    &.n-revealed.w-revealed {
+      border-top-left-radius: 10px;
+      span.top-corners:before {
+        background-color: transparent;
+      }
+    }
+
+    // Northeast corner rounding
+    &.n-revealed.e-revealed {
+      border-top-right-radius: 10px;
+      span.top-corners:after {
+        background-color: transparent;
+      }
+    }
+
+    // Southeast corner rounding
+    &.s-revealed.e-revealed {
+      border-bottom-right-radius: 10px;
+      span.bottom-corners:after {
+        background-color: transparent;
+      }
+    }
+
+    // Southwest corner rounding
+    &.s-revealed.w-revealed {
+      border-bottom-left-radius: 10px;
+      span.bottom-corners:before {
+        background-color: transparent;
+      }
+    }
+
+    // Water cells
+    &.cell-0,
+    &.cell-1,
+    &.cell-2,
+    &.cell-3,
+    &.cell-4,
+    &.cell-5,
+    &.cell-6,
+    &.cell-7,
+    &.cell-8 {
+      background-color: $water;
+      border-top: 5px solid $desert-border-dark;
+      border-right: 5px solid $desert-border-light;
+      border-bottom: 5px solid $desert-border-light;
+      border-left: 5px solid $desert-border-dark;
+      border-radius: 0;
+      span.top-corners,
+      span.bottom-corners {
+        &:before,
+        &:after {
+          background-color: transparent !important;
+        }
+      }
+      span.top-corners {
+        background-color: $water;
+        border-radius: 10px;
+      }
+      &:after {
+        top: -5px;
+        left: -5px;
+        width: calc(100% + 10px);
+        height: calc(100 + 10px);
+      }
+
+      &.nw-revealed {
+        span {
+          border-top-left-radius: 0;
+        }
+      }
+      &.n-revealed {
+        span {
+          border-top-left-radius: 0;
+          border-top-right-radius: 0;
+        }
+      }
+      &.ne-revealed {
+        span {
+          border-top-right-radius: 0;
+        }
+      }
+      &.e-revealed {
+        span {
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+        }
+      }
+      &.se-revealed {
+        span {
+          border-bottom-right-radius: 0;
+        }
+      }
+      &.s-revealed {
+        span {
+          border-bottom-right-radius: 0;
+          border-bottom-left-radius: 0;
+        }
+      }
+      &.sw-revealed {
+        span {
+          border-bottom-left-radius: 0;
+        }
+      }
+      &.w-revealed {
+        span {
+          border-bottom-left-radius: 0;
+          border-top-left-radius: 0;
+        }
+      }
+    }
+    &.cell-0 {
+      span.top-corners {
+        text-indent: 9999px;
+      }
+    }
+    &.cell-1 {
+      color: #00c;
+    }
+    &.cell-2 {
+      color: #090;
+    }
+    &.cell-3 {
+      color: #c00;
+    }
+  }
+}

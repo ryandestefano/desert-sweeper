@@ -19,6 +19,8 @@ class PlayerBoard extends React.Component {
                 isFlagged={cell.isFlagged}
                 adjacentBombs={cell.adjacentBombs}
                 isRevealed={cell.isRevealed}
+                isGem={cell.isGem}
+                isObelisk={cell.isObelisk}
                 nwRevealed={cell.nwRevealed}
                 nRevealed={cell.nRevealed}
                 neRevealed={cell.neRevealed}

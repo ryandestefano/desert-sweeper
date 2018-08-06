@@ -10,8 +10,10 @@ class App extends Component {
       numberOfRows: 16,
       numberOfColumns: 16,
       numberOfBombs: 80,
+      numberOfGems: 15,
       numberOfFlags: 0,
       numberOfRevealedCells: 0,
+      numberOfDiscoveredGems: 0,
       playerBoard: [],
       bombsAdded: false,
       unresolvedCells: []
@@ -19,6 +21,7 @@ class App extends Component {
     this.generateBoard = this.generateBoard.bind(this);
     this.getAdjacentCells = this.getAdjacentCells.bind(this);
     this.addBombs = this.addBombs.bind(this);
+    this.addGems = this.addGems.bind(this);
     this.countAdjacentBombs = this.countAdjacentBombs.bind(this);
     this.cellClick = this.cellClick.bind(this);
     this.resolveCells = this.resolveCells.bind(this);
@@ -38,6 +41,8 @@ class App extends Component {
           column: j,
           isBomb: false,
           isStart: false,
+          isGem: false,
+          isObelisk: false,
           isFlagged: false,
           isRevealed: false,
           isResolved: false,
@@ -61,6 +66,7 @@ class App extends Component {
       bombsAdded: false,
       numberOfFlags: 0,
       numberOfRevealedFlags: 0,
+      numberOfDiscoveredGems: 0,
       unresolvedCells: []
     });
     return board;
@@ -102,6 +108,22 @@ class App extends Component {
     this.countAdjacentBombs();
   }
 
+  // ADD GEMS TO BOARD
+  addGems() {
+    let board = this.state.playerBoard;
+    let i = 0;
+
+    while (i < this.state.numberOfGems) {
+      const row = Math.floor(Math.random() * this.state.numberOfRows);
+      const column = Math.floor(Math.random() * this.state.numberOfColumns);
+
+      if (board[row][column].isGem === false && board[row][column].isBomb === false && board[row][column].isStart === false) {
+        board[row][column].isGem = true;
+        i++;
+      }
+    }
+  }
+
   // COUNT ADJACENT BOMBS
   countAdjacentBombs(row, column) {
     let board = this.state.playerBoard;
@@ -128,12 +150,16 @@ class App extends Component {
   increaseRevealedCellsCount() {
     let board = this.state.playerBoard;
     let numberOfRevealedCells = 0;
+    let numberOfDiscoveredGems = 0;
 
     board.forEach(row => {
       row.forEach(cell => {
 
         if (cell.isRevealed) {
           numberOfRevealedCells++;
+          if (cell.isGem) {
+            numberOfDiscoveredGems++;
+          }
         }
 
         // land shape trial
@@ -172,7 +198,7 @@ class App extends Component {
       });
     });
 
-    this.setState({numberOfRevealedCells});
+    this.setState({numberOfRevealedCells, numberOfDiscoveredGems});
   }
 
   // HANDLE CELL CLICK
@@ -191,6 +217,29 @@ class App extends Component {
         const numberOfFlags = this.state.numberOfFlags - 1;
         this.setState({playerBoard: board, numberOfFlags});
       }
+      return;
+    }
+
+    // Build Obelisk
+    if (e.altKey && !cell.isRevealed) {
+      const adjacentCells = this.getAdjacentCells(row, column);
+      let numberOfFlags = this.state.numberOfFlags;
+
+      adjacentCells.forEach(offsetCell => {
+        const cell = board[offsetCell[0]][offsetCell[1]];
+        cell.isObelisk = true;
+        if (cell.isBomb && !cell.isFlagged) {
+          cell.isFlagged = true;
+          numberOfFlags++;
+        }
+        else if (!cell.isBomb) {
+          cell.isRevealed = true;
+        }
+      });
+
+      this.increaseRevealedCellsCount();
+      this.setState({playerBoard: board, numberOfFlags});
+
       return;
     }
 
@@ -213,6 +262,7 @@ class App extends Component {
       });
 
       this.addBombs();
+      this.addGems();
     }
 
     // Click
@@ -274,6 +324,7 @@ class App extends Component {
         <p onClick={this.generateBoard}>New Game</p>
         <p>Bombs Remaining: {this.state.numberOfBombs - this.state.numberOfFlags}</p>
         <p>Revealed Cells: {this.state.numberOfRevealedCells}</p>
+        <p>Gems Discovered: {this.state.numberOfDiscoveredGems}</p>
         <PlayerBoard playerBoard={this.state.playerBoard} cellClick={this.cellClick} />
       </div>
     );
