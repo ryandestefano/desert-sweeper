@@ -1,196 +1,270 @@
 * {
   box-sizing: border-box; }
 
-.row {
-  display: flex;
-  flex-direction: row;
-  background-color: #D7FAFA; }
-  .row .cell {
-    position: relative;
+body {
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 14px;
+  line-height: 1.5rem; }
+  body .desert-sweeper {
     display: flex;
-    align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    background-color: #FAE650;
-    font-weight: bold;
-    user-select: none; }
-    .row .cell:after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      box-shadow: inset 1px 1px 0 rgba(100, 100, 100, 0.1);
-      pointer-events: none; }
-    .row .cell.flagged:after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: url("/../pyramid.png");
-      background-size: 100% 100%; }
-    .row .cell.obelisk {
-      filter: hue-rotate(330deg); }
-    .row .cell span.top-corners,
-    .row .cell span.bottom-corners {
-      position: absolute;
-      top: 0;
-      left: 0;
+    background-color: #D7FAFA;
+    text-align: center; }
+    body .desert-sweeper .menu .gems img {
+      display: inline-block;
+      vertical-align: middle;
+      width: 40px;
+      height: auto; }
+    body .desert-sweeper .menu .gems p {
+      display: inline-block;
+      vertical-align: middle; }
+    body .desert-sweeper .shop {
+      display: inline-block;
+      vertical-align: top;
+      background-color: rgba(0, 0, 0, 0.75);
+      padding: 40px; }
+      body .desert-sweeper .shop ul li {
+        text-align: left;
+        margin: 0 0 15px 0; }
+        body .desert-sweeper .shop ul li div {
+          display: inline-block;
+          vertical-align: middle;
+          width: 30px;
+          height: 30px;
+          margin: 0 15px 0 0; }
+          body .desert-sweeper .shop ul li div img {
+            width: 100%;
+            height: auto; }
+        body .desert-sweeper .shop ul li p {
+          display: inline-block;
+          vertical-align: middle; }
+    body .desert-sweeper .game-area {
+      position: relative;
+      display: inline-block;
+      overflow: hidden; }
+      body .desert-sweeper .game-area .hover-patterns {
+        position: absolute;
+        z-index: 200;
+        display: none;
+        width: 200px;
+        height: 200px;
+        background-image: url("/../hover-patterns.png");
+        background-size: auto 100%;
+        margin: -80px 0 0 -80px;
+        pointer-events: none; }
+        body .desert-sweeper .game-area .hover-patterns.pattern-1 {
+          background-position: 0 0; }
+        body .desert-sweeper .game-area .hover-patterns.pattern-2 {
+          background-position: -100% 0; }
+        body .desert-sweeper .game-area .hover-patterns.pattern-3 {
+          background-position: -200% 0; }
+        body .desert-sweeper .game-area .hover-patterns.pattern-4 {
+          background-position: -300% 0; }
+        body .desert-sweeper .game-area .hover-patterns.pattern-5 {
+          background-position: -400% 0; }
+        body .desert-sweeper .game-area .hover-patterns.pattern-6 {
+          background-position: -500% 0; }
+        body .desert-sweeper .game-area .hover-patterns.pattern-7 {
+          background-position: -600% 0; }
+        body .desert-sweeper .game-area .hover-patterns.pattern-8 {
+          background-position: -700% 0; }
+        body .desert-sweeper .game-area .hover-patterns.pattern-9 {
+          background-position: -800% 0; }
+        body .desert-sweeper .game-area .hover-patterns.pattern-10 {
+          background-position: -900% 0; }
+    body .desert-sweeper .player-board .row {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      height: 100%;
-      pointer-events: none; }
-      .row .cell span.top-corners:before, .row .cell span.top-corners:after,
-      .row .cell span.bottom-corners:before,
-      .row .cell span.bottom-corners:after {
-        content: "";
-        position: absolute;
-        width: 50%;
-        height: 50%;
-        background-image: url("/../desert-sprite.png");
-        background-size: 1600% 200%;
-        background-position: -1100% 0; }
-    .row .cell span.top-corners:before {
-      top: 0;
-      left: 0; }
-    .row .cell span.top-corners:after {
-      top: 0;
-      right: 0; }
-    .row .cell span.bottom-corners:before {
-      bottom: 0;
-      left: 0; }
-    .row .cell span.bottom-corners:after {
-      right: 0;
-      bottom: 0; }
-    .row .cell.n-revealed span.top-corners:before {
-      background-position: -400% 0; }
-    .row .cell.n-revealed span.top-corners:after {
-      background-position: -500% 0; }
-    .row .cell.n-revealed.nw-revealed span.top-corners:before {
-      background-position: -200% 0; }
-    .row .cell.n-revealed.ne-revealed span.top-corners:after {
-      background-position: -300% 0; }
-    .row .cell.e-revealed span.top-corners:after {
-      background-position: -900% 0; }
-    .row .cell.e-revealed span.bottom-corners:after {
-      background-position: -900% -100%; }
-    .row .cell.e-revealed.ne-revealed span.top-corners:after {
-      background-position: -700% 0; }
-    .row .cell.e-revealed.se-revealed span.bottom-corners:after {
-      background-position: -700% -100%; }
-    .row .cell.s-revealed span.bottom-corners:after {
-      background-position: -500% -100%; }
-    .row .cell.s-revealed span.bottom-corners:before {
-      background-position: -400% -100%; }
-    .row .cell.s-revealed.se-revealed span.bottom-corners:after {
-      background-position: -300% -100%; }
-    .row .cell.s-revealed.sw-revealed span.bottom-corners:before {
-      background-position: -200% -100%; }
-    .row .cell.w-revealed span.bottom-corners:before {
-      background-position: -800% -100%; }
-    .row .cell.w-revealed span.top-corners:before {
-      background-position: -800% 0; }
-    .row .cell.w-revealed.nw-revealed span.top-corners:before {
-      background-position: -600% 0; }
-    .row .cell.w-revealed.sw-revealed span.bottom-corners:before {
-      background-position: -600% -100%; }
-    .row .cell.n-revealed.w-revealed span.top-corners:before {
-      background-position: 0 0; }
-    .row .cell.n-revealed.e-revealed span.top-corners:after {
-      background-position: -100% 0; }
-    .row .cell.s-revealed.e-revealed span.bottom-corners:after {
-      background-position: -100% -100%; }
-    .row .cell.s-revealed.w-revealed span.bottom-corners:before {
-      background-position: 0 -100%; }
-    .row .cell.cell-0, .row .cell.cell-1, .row .cell.cell-2, .row .cell.cell-3, .row .cell.cell-4, .row .cell.cell-5, .row .cell.cell-6, .row .cell.cell-7, .row .cell.cell-8 {
-      background-color: #D7FAFA; }
-      .row .cell.cell-0 span.number, .row .cell.cell-1 span.number, .row .cell.cell-2 span.number, .row .cell.cell-3 span.number, .row .cell.cell-4 span.number, .row .cell.cell-5 span.number, .row .cell.cell-6 span.number, .row .cell.cell-7 span.number, .row .cell.cell-8 span.number {
+      flex-direction: row;
+      justify-content: center; }
+      body .desert-sweeper .player-board .row .cell {
         position: relative;
-        z-index: 100; }
-      .row .cell.cell-0 span.top-corners:before, .row .cell.cell-1 span.top-corners:before, .row .cell.cell-2 span.top-corners:before, .row .cell.cell-3 span.top-corners:before, .row .cell.cell-4 span.top-corners:before, .row .cell.cell-5 span.top-corners:before, .row .cell.cell-6 span.top-corners:before, .row .cell.cell-7 span.top-corners:before, .row .cell.cell-8 span.top-corners:before {
-        background-position: -1400% 0; }
-      .row .cell.cell-0 span.top-corners:after, .row .cell.cell-1 span.top-corners:after, .row .cell.cell-2 span.top-corners:after, .row .cell.cell-3 span.top-corners:after, .row .cell.cell-4 span.top-corners:after, .row .cell.cell-5 span.top-corners:after, .row .cell.cell-6 span.top-corners:after, .row .cell.cell-7 span.top-corners:after, .row .cell.cell-8 span.top-corners:after {
-        background-position: -1500% 0; }
-      .row .cell.cell-0 span.bottom-corners:before, .row .cell.cell-1 span.bottom-corners:before, .row .cell.cell-2 span.bottom-corners:before, .row .cell.cell-3 span.bottom-corners:before, .row .cell.cell-4 span.bottom-corners:before, .row .cell.cell-5 span.bottom-corners:before, .row .cell.cell-6 span.bottom-corners:before, .row .cell.cell-7 span.bottom-corners:before, .row .cell.cell-8 span.bottom-corners:before {
-        background-position: -1400% -100%; }
-      .row .cell.cell-0 span.bottom-corners:after, .row .cell.cell-1 span.bottom-corners:after, .row .cell.cell-2 span.bottom-corners:after, .row .cell.cell-3 span.bottom-corners:after, .row .cell.cell-4 span.bottom-corners:after, .row .cell.cell-5 span.bottom-corners:after, .row .cell.cell-6 span.bottom-corners:after, .row .cell.cell-7 span.bottom-corners:after, .row .cell.cell-8 span.bottom-corners:after {
-        background-position: -1500% -100%; }
-      .row .cell.cell-0:after, .row .cell.cell-1:after, .row .cell.cell-2:after, .row .cell.cell-3:after, .row .cell.cell-4:after, .row .cell.cell-5:after, .row .cell.cell-6:after, .row .cell.cell-7:after, .row .cell.cell-8:after {
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%; }
-      .row .cell.cell-0.gem img, .row .cell.cell-1.gem img, .row .cell.cell-2.gem img, .row .cell.cell-3.gem img, .row .cell.cell-4.gem img, .row .cell.cell-5.gem img, .row .cell.cell-6.gem img, .row .cell.cell-7.gem img, .row .cell.cell-8.gem img {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%; }
-      .row .cell.cell-0.nw-revealed span.top-corners:before, .row .cell.cell-1.nw-revealed span.top-corners:before, .row .cell.cell-2.nw-revealed span.top-corners:before, .row .cell.cell-3.nw-revealed span.top-corners:before, .row .cell.cell-4.nw-revealed span.top-corners:before, .row .cell.cell-5.nw-revealed span.top-corners:before, .row .cell.cell-6.nw-revealed span.top-corners:before, .row .cell.cell-7.nw-revealed span.top-corners:before, .row .cell.cell-8.nw-revealed span.top-corners:before {
-        background-position: -1200% 0; }
-      .row .cell.cell-0.n-revealed span.top-corners:before,
-      .row .cell.cell-0.n-revealed span.top-corners:after, .row .cell.cell-1.n-revealed span.top-corners:before,
-      .row .cell.cell-1.n-revealed span.top-corners:after, .row .cell.cell-2.n-revealed span.top-corners:before,
-      .row .cell.cell-2.n-revealed span.top-corners:after, .row .cell.cell-3.n-revealed span.top-corners:before,
-      .row .cell.cell-3.n-revealed span.top-corners:after, .row .cell.cell-4.n-revealed span.top-corners:before,
-      .row .cell.cell-4.n-revealed span.top-corners:after, .row .cell.cell-5.n-revealed span.top-corners:before,
-      .row .cell.cell-5.n-revealed span.top-corners:after, .row .cell.cell-6.n-revealed span.top-corners:before,
-      .row .cell.cell-6.n-revealed span.top-corners:after, .row .cell.cell-7.n-revealed span.top-corners:before,
-      .row .cell.cell-7.n-revealed span.top-corners:after, .row .cell.cell-8.n-revealed span.top-corners:before,
-      .row .cell.cell-8.n-revealed span.top-corners:after {
-        background-position: -1200% 0; }
-      .row .cell.cell-0.ne-revealed span.top-corners:after, .row .cell.cell-1.ne-revealed span.top-corners:after, .row .cell.cell-2.ne-revealed span.top-corners:after, .row .cell.cell-3.ne-revealed span.top-corners:after, .row .cell.cell-4.ne-revealed span.top-corners:after, .row .cell.cell-5.ne-revealed span.top-corners:after, .row .cell.cell-6.ne-revealed span.top-corners:after, .row .cell.cell-7.ne-revealed span.top-corners:after, .row .cell.cell-8.ne-revealed span.top-corners:after {
-        background-position: -1200% 0; }
-      .row .cell.cell-0.e-revealed span.top-corners:after,
-      .row .cell.cell-0.e-revealed span.bottom-corners:after, .row .cell.cell-1.e-revealed span.top-corners:after,
-      .row .cell.cell-1.e-revealed span.bottom-corners:after, .row .cell.cell-2.e-revealed span.top-corners:after,
-      .row .cell.cell-2.e-revealed span.bottom-corners:after, .row .cell.cell-3.e-revealed span.top-corners:after,
-      .row .cell.cell-3.e-revealed span.bottom-corners:after, .row .cell.cell-4.e-revealed span.top-corners:after,
-      .row .cell.cell-4.e-revealed span.bottom-corners:after, .row .cell.cell-5.e-revealed span.top-corners:after,
-      .row .cell.cell-5.e-revealed span.bottom-corners:after, .row .cell.cell-6.e-revealed span.top-corners:after,
-      .row .cell.cell-6.e-revealed span.bottom-corners:after, .row .cell.cell-7.e-revealed span.top-corners:after,
-      .row .cell.cell-7.e-revealed span.bottom-corners:after, .row .cell.cell-8.e-revealed span.top-corners:after,
-      .row .cell.cell-8.e-revealed span.bottom-corners:after {
-        background-position: -1200% 0; }
-      .row .cell.cell-0.se-revealed span.bottom-corners:after, .row .cell.cell-1.se-revealed span.bottom-corners:after, .row .cell.cell-2.se-revealed span.bottom-corners:after, .row .cell.cell-3.se-revealed span.bottom-corners:after, .row .cell.cell-4.se-revealed span.bottom-corners:after, .row .cell.cell-5.se-revealed span.bottom-corners:after, .row .cell.cell-6.se-revealed span.bottom-corners:after, .row .cell.cell-7.se-revealed span.bottom-corners:after, .row .cell.cell-8.se-revealed span.bottom-corners:after {
-        background-position: -1200% 0; }
-      .row .cell.cell-0.s-revealed span.bottom-corners:after,
-      .row .cell.cell-0.s-revealed span.bottom-corners:before, .row .cell.cell-1.s-revealed span.bottom-corners:after,
-      .row .cell.cell-1.s-revealed span.bottom-corners:before, .row .cell.cell-2.s-revealed span.bottom-corners:after,
-      .row .cell.cell-2.s-revealed span.bottom-corners:before, .row .cell.cell-3.s-revealed span.bottom-corners:after,
-      .row .cell.cell-3.s-revealed span.bottom-corners:before, .row .cell.cell-4.s-revealed span.bottom-corners:after,
-      .row .cell.cell-4.s-revealed span.bottom-corners:before, .row .cell.cell-5.s-revealed span.bottom-corners:after,
-      .row .cell.cell-5.s-revealed span.bottom-corners:before, .row .cell.cell-6.s-revealed span.bottom-corners:after,
-      .row .cell.cell-6.s-revealed span.bottom-corners:before, .row .cell.cell-7.s-revealed span.bottom-corners:after,
-      .row .cell.cell-7.s-revealed span.bottom-corners:before, .row .cell.cell-8.s-revealed span.bottom-corners:after,
-      .row .cell.cell-8.s-revealed span.bottom-corners:before {
-        background-position: -1200% 0; }
-      .row .cell.cell-0.sw-revealed span.bottom-corners:before, .row .cell.cell-1.sw-revealed span.bottom-corners:before, .row .cell.cell-2.sw-revealed span.bottom-corners:before, .row .cell.cell-3.sw-revealed span.bottom-corners:before, .row .cell.cell-4.sw-revealed span.bottom-corners:before, .row .cell.cell-5.sw-revealed span.bottom-corners:before, .row .cell.cell-6.sw-revealed span.bottom-corners:before, .row .cell.cell-7.sw-revealed span.bottom-corners:before, .row .cell.cell-8.sw-revealed span.bottom-corners:before {
-        background-position: -1200% 0; }
-      .row .cell.cell-0.w-revealed span.bottom-corners:before,
-      .row .cell.cell-0.w-revealed span.top-corners:before, .row .cell.cell-1.w-revealed span.bottom-corners:before,
-      .row .cell.cell-1.w-revealed span.top-corners:before, .row .cell.cell-2.w-revealed span.bottom-corners:before,
-      .row .cell.cell-2.w-revealed span.top-corners:before, .row .cell.cell-3.w-revealed span.bottom-corners:before,
-      .row .cell.cell-3.w-revealed span.top-corners:before, .row .cell.cell-4.w-revealed span.bottom-corners:before,
-      .row .cell.cell-4.w-revealed span.top-corners:before, .row .cell.cell-5.w-revealed span.bottom-corners:before,
-      .row .cell.cell-5.w-revealed span.top-corners:before, .row .cell.cell-6.w-revealed span.bottom-corners:before,
-      .row .cell.cell-6.w-revealed span.top-corners:before, .row .cell.cell-7.w-revealed span.bottom-corners:before,
-      .row .cell.cell-7.w-revealed span.top-corners:before, .row .cell.cell-8.w-revealed span.bottom-corners:before,
-      .row .cell.cell-8.w-revealed span.top-corners:before {
-        background-position: -1200% 0; }
-    .row .cell.cell-0 span.number {
-      text-indent: -9999px; }
-    .row .cell.cell-1 {
-      color: #00c; }
-    .row .cell.cell-2 {
-      color: #090; }
-    .row .cell.cell-3 {
-      color: #c00; }
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background-color: #FAE650;
+        font-weight: bold;
+        user-select: none; }
+        body .desert-sweeper .player-board .row .cell:after {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          box-shadow: inset 1px 1px 0 rgba(100, 100, 100, 0.1);
+          pointer-events: none; }
+        body .desert-sweeper .player-board .row .cell.flagged:after {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-image: url("/../pyramid.png");
+          background-size: 100% 100%; }
+        body .desert-sweeper .player-board .row .cell.hovered {
+          filter: hue-rotate(330deg); }
+        body .desert-sweeper .player-board .row .cell.obelisk {
+          filter: hue-rotate(330deg); }
+        body .desert-sweeper .player-board .row .cell span.top-corners,
+        body .desert-sweeper .player-board .row .cell span.bottom-corners {
+          position: absolute;
+          top: 0;
+          left: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          height: 100%;
+          pointer-events: none; }
+          body .desert-sweeper .player-board .row .cell span.top-corners:before, body .desert-sweeper .player-board .row .cell span.top-corners:after,
+          body .desert-sweeper .player-board .row .cell span.bottom-corners:before,
+          body .desert-sweeper .player-board .row .cell span.bottom-corners:after {
+            content: "";
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            background-image: url("/../desert-sprite.png");
+            background-size: 1600% 200%;
+            background-position: -1100% 0; }
+        body .desert-sweeper .player-board .row .cell span.top-corners:before {
+          top: 0;
+          left: 0; }
+        body .desert-sweeper .player-board .row .cell span.top-corners:after {
+          top: 0;
+          right: 0; }
+        body .desert-sweeper .player-board .row .cell span.bottom-corners:before {
+          bottom: 0;
+          left: 0; }
+        body .desert-sweeper .player-board .row .cell span.bottom-corners:after {
+          right: 0;
+          bottom: 0; }
+        body .desert-sweeper .player-board .row .cell.n-revealed span.top-corners:before {
+          background-position: -400% 0; }
+        body .desert-sweeper .player-board .row .cell.n-revealed span.top-corners:after {
+          background-position: -500% 0; }
+        body .desert-sweeper .player-board .row .cell.n-revealed.nw-revealed span.top-corners:before {
+          background-position: -200% 0; }
+        body .desert-sweeper .player-board .row .cell.n-revealed.ne-revealed span.top-corners:after {
+          background-position: -300% 0; }
+        body .desert-sweeper .player-board .row .cell.e-revealed span.top-corners:after {
+          background-position: -900% 0; }
+        body .desert-sweeper .player-board .row .cell.e-revealed span.bottom-corners:after {
+          background-position: -900% -100%; }
+        body .desert-sweeper .player-board .row .cell.e-revealed.ne-revealed span.top-corners:after {
+          background-position: -700% 0; }
+        body .desert-sweeper .player-board .row .cell.e-revealed.se-revealed span.bottom-corners:after {
+          background-position: -700% -100%; }
+        body .desert-sweeper .player-board .row .cell.s-revealed span.bottom-corners:after {
+          background-position: -500% -100%; }
+        body .desert-sweeper .player-board .row .cell.s-revealed span.bottom-corners:before {
+          background-position: -400% -100%; }
+        body .desert-sweeper .player-board .row .cell.s-revealed.se-revealed span.bottom-corners:after {
+          background-position: -300% -100%; }
+        body .desert-sweeper .player-board .row .cell.s-revealed.sw-revealed span.bottom-corners:before {
+          background-position: -200% -100%; }
+        body .desert-sweeper .player-board .row .cell.w-revealed span.bottom-corners:before {
+          background-position: -800% -100%; }
+        body .desert-sweeper .player-board .row .cell.w-revealed span.top-corners:before {
+          background-position: -800% 0; }
+        body .desert-sweeper .player-board .row .cell.w-revealed.nw-revealed span.top-corners:before {
+          background-position: -600% 0; }
+        body .desert-sweeper .player-board .row .cell.w-revealed.sw-revealed span.bottom-corners:before {
+          background-position: -600% -100%; }
+        body .desert-sweeper .player-board .row .cell.n-revealed.w-revealed span.top-corners:before {
+          background-position: 0 0; }
+        body .desert-sweeper .player-board .row .cell.n-revealed.e-revealed span.top-corners:after {
+          background-position: -100% 0; }
+        body .desert-sweeper .player-board .row .cell.s-revealed.e-revealed span.bottom-corners:after {
+          background-position: -100% -100%; }
+        body .desert-sweeper .player-board .row .cell.s-revealed.w-revealed span.bottom-corners:before {
+          background-position: 0 -100%; }
+        body .desert-sweeper .player-board .row .cell.cell-0, body .desert-sweeper .player-board .row .cell.cell-1, body .desert-sweeper .player-board .row .cell.cell-2, body .desert-sweeper .player-board .row .cell.cell-3, body .desert-sweeper .player-board .row .cell.cell-4, body .desert-sweeper .player-board .row .cell.cell-5, body .desert-sweeper .player-board .row .cell.cell-6, body .desert-sweeper .player-board .row .cell.cell-7, body .desert-sweeper .player-board .row .cell.cell-8 {
+          background-color: #D7FAFA; }
+          body .desert-sweeper .player-board .row .cell.cell-0 span.number, body .desert-sweeper .player-board .row .cell.cell-1 span.number, body .desert-sweeper .player-board .row .cell.cell-2 span.number, body .desert-sweeper .player-board .row .cell.cell-3 span.number, body .desert-sweeper .player-board .row .cell.cell-4 span.number, body .desert-sweeper .player-board .row .cell.cell-5 span.number, body .desert-sweeper .player-board .row .cell.cell-6 span.number, body .desert-sweeper .player-board .row .cell.cell-7 span.number, body .desert-sweeper .player-board .row .cell.cell-8 span.number {
+            position: relative;
+            z-index: 100; }
+          body .desert-sweeper .player-board .row .cell.cell-0 span.top-corners:before, body .desert-sweeper .player-board .row .cell.cell-1 span.top-corners:before, body .desert-sweeper .player-board .row .cell.cell-2 span.top-corners:before, body .desert-sweeper .player-board .row .cell.cell-3 span.top-corners:before, body .desert-sweeper .player-board .row .cell.cell-4 span.top-corners:before, body .desert-sweeper .player-board .row .cell.cell-5 span.top-corners:before, body .desert-sweeper .player-board .row .cell.cell-6 span.top-corners:before, body .desert-sweeper .player-board .row .cell.cell-7 span.top-corners:before, body .desert-sweeper .player-board .row .cell.cell-8 span.top-corners:before {
+            background-position: -1400% 0; }
+          body .desert-sweeper .player-board .row .cell.cell-0 span.top-corners:after, body .desert-sweeper .player-board .row .cell.cell-1 span.top-corners:after, body .desert-sweeper .player-board .row .cell.cell-2 span.top-corners:after, body .desert-sweeper .player-board .row .cell.cell-3 span.top-corners:after, body .desert-sweeper .player-board .row .cell.cell-4 span.top-corners:after, body .desert-sweeper .player-board .row .cell.cell-5 span.top-corners:after, body .desert-sweeper .player-board .row .cell.cell-6 span.top-corners:after, body .desert-sweeper .player-board .row .cell.cell-7 span.top-corners:after, body .desert-sweeper .player-board .row .cell.cell-8 span.top-corners:after {
+            background-position: -1500% 0; }
+          body .desert-sweeper .player-board .row .cell.cell-0 span.bottom-corners:before, body .desert-sweeper .player-board .row .cell.cell-1 span.bottom-corners:before, body .desert-sweeper .player-board .row .cell.cell-2 span.bottom-corners:before, body .desert-sweeper .player-board .row .cell.cell-3 span.bottom-corners:before, body .desert-sweeper .player-board .row .cell.cell-4 span.bottom-corners:before, body .desert-sweeper .player-board .row .cell.cell-5 span.bottom-corners:before, body .desert-sweeper .player-board .row .cell.cell-6 span.bottom-corners:before, body .desert-sweeper .player-board .row .cell.cell-7 span.bottom-corners:before, body .desert-sweeper .player-board .row .cell.cell-8 span.bottom-corners:before {
+            background-position: -1400% -100%; }
+          body .desert-sweeper .player-board .row .cell.cell-0 span.bottom-corners:after, body .desert-sweeper .player-board .row .cell.cell-1 span.bottom-corners:after, body .desert-sweeper .player-board .row .cell.cell-2 span.bottom-corners:after, body .desert-sweeper .player-board .row .cell.cell-3 span.bottom-corners:after, body .desert-sweeper .player-board .row .cell.cell-4 span.bottom-corners:after, body .desert-sweeper .player-board .row .cell.cell-5 span.bottom-corners:after, body .desert-sweeper .player-board .row .cell.cell-6 span.bottom-corners:after, body .desert-sweeper .player-board .row .cell.cell-7 span.bottom-corners:after, body .desert-sweeper .player-board .row .cell.cell-8 span.bottom-corners:after {
+            background-position: -1500% -100%; }
+          body .desert-sweeper .player-board .row .cell.cell-0:after, body .desert-sweeper .player-board .row .cell.cell-1:after, body .desert-sweeper .player-board .row .cell.cell-2:after, body .desert-sweeper .player-board .row .cell.cell-3:after, body .desert-sweeper .player-board .row .cell.cell-4:after, body .desert-sweeper .player-board .row .cell.cell-5:after, body .desert-sweeper .player-board .row .cell.cell-6:after, body .desert-sweeper .player-board .row .cell.cell-7:after, body .desert-sweeper .player-board .row .cell.cell-8:after {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%; }
+          body .desert-sweeper .player-board .row .cell.cell-0.gem img, body .desert-sweeper .player-board .row .cell.cell-1.gem img, body .desert-sweeper .player-board .row .cell.cell-2.gem img, body .desert-sweeper .player-board .row .cell.cell-3.gem img, body .desert-sweeper .player-board .row .cell.cell-4.gem img, body .desert-sweeper .player-board .row .cell.cell-5.gem img, body .desert-sweeper .player-board .row .cell.cell-6.gem img, body .desert-sweeper .player-board .row .cell.cell-7.gem img, body .desert-sweeper .player-board .row .cell.cell-8.gem img {
+            position: absolute;
+            top: 0;
+            z-index: 200;
+            left: 0;
+            width: 100%;
+            height: 100%; }
+          body .desert-sweeper .player-board .row .cell.cell-0.nw-revealed span.top-corners:before, body .desert-sweeper .player-board .row .cell.cell-1.nw-revealed span.top-corners:before, body .desert-sweeper .player-board .row .cell.cell-2.nw-revealed span.top-corners:before, body .desert-sweeper .player-board .row .cell.cell-3.nw-revealed span.top-corners:before, body .desert-sweeper .player-board .row .cell.cell-4.nw-revealed span.top-corners:before, body .desert-sweeper .player-board .row .cell.cell-5.nw-revealed span.top-corners:before, body .desert-sweeper .player-board .row .cell.cell-6.nw-revealed span.top-corners:before, body .desert-sweeper .player-board .row .cell.cell-7.nw-revealed span.top-corners:before, body .desert-sweeper .player-board .row .cell.cell-8.nw-revealed span.top-corners:before {
+            background-position: -1200% 0; }
+          body .desert-sweeper .player-board .row .cell.cell-0.n-revealed span.top-corners:before,
+          body .desert-sweeper .player-board .row .cell.cell-0.n-revealed span.top-corners:after, body .desert-sweeper .player-board .row .cell.cell-1.n-revealed span.top-corners:before,
+          body .desert-sweeper .player-board .row .cell.cell-1.n-revealed span.top-corners:after, body .desert-sweeper .player-board .row .cell.cell-2.n-revealed span.top-corners:before,
+          body .desert-sweeper .player-board .row .cell.cell-2.n-revealed span.top-corners:after, body .desert-sweeper .player-board .row .cell.cell-3.n-revealed span.top-corners:before,
+          body .desert-sweeper .player-board .row .cell.cell-3.n-revealed span.top-corners:after, body .desert-sweeper .player-board .row .cell.cell-4.n-revealed span.top-corners:before,
+          body .desert-sweeper .player-board .row .cell.cell-4.n-revealed span.top-corners:after, body .desert-sweeper .player-board .row .cell.cell-5.n-revealed span.top-corners:before,
+          body .desert-sweeper .player-board .row .cell.cell-5.n-revealed span.top-corners:after, body .desert-sweeper .player-board .row .cell.cell-6.n-revealed span.top-corners:before,
+          body .desert-sweeper .player-board .row .cell.cell-6.n-revealed span.top-corners:after, body .desert-sweeper .player-board .row .cell.cell-7.n-revealed span.top-corners:before,
+          body .desert-sweeper .player-board .row .cell.cell-7.n-revealed span.top-corners:after, body .desert-sweeper .player-board .row .cell.cell-8.n-revealed span.top-corners:before,
+          body .desert-sweeper .player-board .row .cell.cell-8.n-revealed span.top-corners:after {
+            background-position: -1200% 0; }
+          body .desert-sweeper .player-board .row .cell.cell-0.ne-revealed span.top-corners:after, body .desert-sweeper .player-board .row .cell.cell-1.ne-revealed span.top-corners:after, body .desert-sweeper .player-board .row .cell.cell-2.ne-revealed span.top-corners:after, body .desert-sweeper .player-board .row .cell.cell-3.ne-revealed span.top-corners:after, body .desert-sweeper .player-board .row .cell.cell-4.ne-revealed span.top-corners:after, body .desert-sweeper .player-board .row .cell.cell-5.ne-revealed span.top-corners:after, body .desert-sweeper .player-board .row .cell.cell-6.ne-revealed span.top-corners:after, body .desert-sweeper .player-board .row .cell.cell-7.ne-revealed span.top-corners:after, body .desert-sweeper .player-board .row .cell.cell-8.ne-revealed span.top-corners:after {
+            background-position: -1200% 0; }
+          body .desert-sweeper .player-board .row .cell.cell-0.e-revealed span.top-corners:after,
+          body .desert-sweeper .player-board .row .cell.cell-0.e-revealed span.bottom-corners:after, body .desert-sweeper .player-board .row .cell.cell-1.e-revealed span.top-corners:after,
+          body .desert-sweeper .player-board .row .cell.cell-1.e-revealed span.bottom-corners:after, body .desert-sweeper .player-board .row .cell.cell-2.e-revealed span.top-corners:after,
+          body .desert-sweeper .player-board .row .cell.cell-2.e-revealed span.bottom-corners:after, body .desert-sweeper .player-board .row .cell.cell-3.e-revealed span.top-corners:after,
+          body .desert-sweeper .player-board .row .cell.cell-3.e-revealed span.bottom-corners:after, body .desert-sweeper .player-board .row .cell.cell-4.e-revealed span.top-corners:after,
+          body .desert-sweeper .player-board .row .cell.cell-4.e-revealed span.bottom-corners:after, body .desert-sweeper .player-board .row .cell.cell-5.e-revealed span.top-corners:after,
+          body .desert-sweeper .player-board .row .cell.cell-5.e-revealed span.bottom-corners:after, body .desert-sweeper .player-board .row .cell.cell-6.e-revealed span.top-corners:after,
+          body .desert-sweeper .player-board .row .cell.cell-6.e-revealed span.bottom-corners:after, body .desert-sweeper .player-board .row .cell.cell-7.e-revealed span.top-corners:after,
+          body .desert-sweeper .player-board .row .cell.cell-7.e-revealed span.bottom-corners:after, body .desert-sweeper .player-board .row .cell.cell-8.e-revealed span.top-corners:after,
+          body .desert-sweeper .player-board .row .cell.cell-8.e-revealed span.bottom-corners:after {
+            background-position: -1200% 0; }
+          body .desert-sweeper .player-board .row .cell.cell-0.se-revealed span.bottom-corners:after, body .desert-sweeper .player-board .row .cell.cell-1.se-revealed span.bottom-corners:after, body .desert-sweeper .player-board .row .cell.cell-2.se-revealed span.bottom-corners:after, body .desert-sweeper .player-board .row .cell.cell-3.se-revealed span.bottom-corners:after, body .desert-sweeper .player-board .row .cell.cell-4.se-revealed span.bottom-corners:after, body .desert-sweeper .player-board .row .cell.cell-5.se-revealed span.bottom-corners:after, body .desert-sweeper .player-board .row .cell.cell-6.se-revealed span.bottom-corners:after, body .desert-sweeper .player-board .row .cell.cell-7.se-revealed span.bottom-corners:after, body .desert-sweeper .player-board .row .cell.cell-8.se-revealed span.bottom-corners:after {
+            background-position: -1200% 0; }
+          body .desert-sweeper .player-board .row .cell.cell-0.s-revealed span.bottom-corners:after,
+          body .desert-sweeper .player-board .row .cell.cell-0.s-revealed span.bottom-corners:before, body .desert-sweeper .player-board .row .cell.cell-1.s-revealed span.bottom-corners:after,
+          body .desert-sweeper .player-board .row .cell.cell-1.s-revealed span.bottom-corners:before, body .desert-sweeper .player-board .row .cell.cell-2.s-revealed span.bottom-corners:after,
+          body .desert-sweeper .player-board .row .cell.cell-2.s-revealed span.bottom-corners:before, body .desert-sweeper .player-board .row .cell.cell-3.s-revealed span.bottom-corners:after,
+          body .desert-sweeper .player-board .row .cell.cell-3.s-revealed span.bottom-corners:before, body .desert-sweeper .player-board .row .cell.cell-4.s-revealed span.bottom-corners:after,
+          body .desert-sweeper .player-board .row .cell.cell-4.s-revealed span.bottom-corners:before, body .desert-sweeper .player-board .row .cell.cell-5.s-revealed span.bottom-corners:after,
+          body .desert-sweeper .player-board .row .cell.cell-5.s-revealed span.bottom-corners:before, body .desert-sweeper .player-board .row .cell.cell-6.s-revealed span.bottom-corners:after,
+          body .desert-sweeper .player-board .row .cell.cell-6.s-revealed span.bottom-corners:before, body .desert-sweeper .player-board .row .cell.cell-7.s-revealed span.bottom-corners:after,
+          body .desert-sweeper .player-board .row .cell.cell-7.s-revealed span.bottom-corners:before, body .desert-sweeper .player-board .row .cell.cell-8.s-revealed span.bottom-corners:after,
+          body .desert-sweeper .player-board .row .cell.cell-8.s-revealed span.bottom-corners:before {
+            background-position: -1200% 0; }
+          body .desert-sweeper .player-board .row .cell.cell-0.sw-revealed span.bottom-corners:before, body .desert-sweeper .player-board .row .cell.cell-1.sw-revealed span.bottom-corners:before, body .desert-sweeper .player-board .row .cell.cell-2.sw-revealed span.bottom-corners:before, body .desert-sweeper .player-board .row .cell.cell-3.sw-revealed span.bottom-corners:before, body .desert-sweeper .player-board .row .cell.cell-4.sw-revealed span.bottom-corners:before, body .desert-sweeper .player-board .row .cell.cell-5.sw-revealed span.bottom-corners:before, body .desert-sweeper .player-board .row .cell.cell-6.sw-revealed span.bottom-corners:before, body .desert-sweeper .player-board .row .cell.cell-7.sw-revealed span.bottom-corners:before, body .desert-sweeper .player-board .row .cell.cell-8.sw-revealed span.bottom-corners:before {
+            background-position: -1200% 0; }
+          body .desert-sweeper .player-board .row .cell.cell-0.w-revealed span.bottom-corners:before,
+          body .desert-sweeper .player-board .row .cell.cell-0.w-revealed span.top-corners:before, body .desert-sweeper .player-board .row .cell.cell-1.w-revealed span.bottom-corners:before,
+          body .desert-sweeper .player-board .row .cell.cell-1.w-revealed span.top-corners:before, body .desert-sweeper .player-board .row .cell.cell-2.w-revealed span.bottom-corners:before,
+          body .desert-sweeper .player-board .row .cell.cell-2.w-revealed span.top-corners:before, body .desert-sweeper .player-board .row .cell.cell-3.w-revealed span.bottom-corners:before,
+          body .desert-sweeper .player-board .row .cell.cell-3.w-revealed span.top-corners:before, body .desert-sweeper .player-board .row .cell.cell-4.w-revealed span.bottom-corners:before,
+          body .desert-sweeper .player-board .row .cell.cell-4.w-revealed span.top-corners:before, body .desert-sweeper .player-board .row .cell.cell-5.w-revealed span.bottom-corners:before,
+          body .desert-sweeper .player-board .row .cell.cell-5.w-revealed span.top-corners:before, body .desert-sweeper .player-board .row .cell.cell-6.w-revealed span.bottom-corners:before,
+          body .desert-sweeper .player-board .row .cell.cell-6.w-revealed span.top-corners:before, body .desert-sweeper .player-board .row .cell.cell-7.w-revealed span.bottom-corners:before,
+          body .desert-sweeper .player-board .row .cell.cell-7.w-revealed span.top-corners:before, body .desert-sweeper .player-board .row .cell.cell-8.w-revealed span.bottom-corners:before,
+          body .desert-sweeper .player-board .row .cell.cell-8.w-revealed span.top-corners:before {
+            background-position: -1200% 0; }
+        body .desert-sweeper .player-board .row .cell.cell-0 span.number {
+          text-indent: -9999px; }
+        body .desert-sweeper .player-board .row .cell.cell-1 {
+          color: #00c; }
+        body .desert-sweeper .player-board .row .cell.cell-2 {
+          color: #090; }
+        body .desert-sweeper .player-board .row .cell.cell-3 {
+          color: #c00; }
 
 /*# sourceMappingURL=App.css.map */

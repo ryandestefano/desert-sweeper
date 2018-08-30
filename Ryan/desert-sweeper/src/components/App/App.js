@@ -15,8 +15,17 @@ class App extends Component {
       numberOfRevealedCells: 0,
       numberOfDiscoveredGems: 0,
       playerBoard: [],
+      cellValue: 5,
+      gemValue: 100,
+      obeliskCost: 500,
+      spentMoney: 0,
+      playerMoney: 0,
       bombsAdded: false,
-      unresolvedCells: []
+      unresolvedCells: [],
+      itemActive: false,
+      itemNumber: 1,
+      hoverXOffset: 0,
+      hoverYOffset: 0
     };
     this.generateBoard = this.generateBoard.bind(this);
     this.getAdjacentCells = this.getAdjacentCells.bind(this);
@@ -24,8 +33,13 @@ class App extends Component {
     this.addGems = this.addGems.bind(this);
     this.countAdjacentBombs = this.countAdjacentBombs.bind(this);
     this.cellClick = this.cellClick.bind(this);
+    this.cellHover = this.cellHover.bind(this);
+    this.cellOut = this.cellOut.bind(this);
+    this.gemClick = this.gemClick.bind(this);
+    this.spendMoney = this.spendMoney.bind(this);
     this.resolveCells = this.resolveCells.bind(this);
     this.increaseRevealedCellsCount = this.increaseRevealedCellsCount.bind(this);
+    this.itemActivated = this.itemActivated.bind(this);
   }
 
   // GENERATE EMPTY BOARD
@@ -42,6 +56,7 @@ class App extends Component {
           isBomb: false,
           isStart: false,
           isGem: false,
+          isHovered: false,
           isObelisk: false,
           isFlagged: false,
           isRevealed: false,
@@ -67,6 +82,8 @@ class App extends Component {
       numberOfFlags: 0,
       numberOfRevealedFlags: 0,
       numberOfDiscoveredGems: 0,
+      playerMoney: 0,
+      spentMoney: 0,
       unresolvedCells: []
     });
     return board;
@@ -150,16 +167,12 @@ class App extends Component {
   increaseRevealedCellsCount() {
     let board = this.state.playerBoard;
     let numberOfRevealedCells = 0;
-    let numberOfDiscoveredGems = 0;
 
     board.forEach(row => {
       row.forEach(cell => {
 
         if (cell.isRevealed) {
           numberOfRevealedCells++;
-          if (cell.isGem) {
-            numberOfDiscoveredGems++;
-          }
         }
 
         // land shape trial
@@ -198,7 +211,7 @@ class App extends Component {
       });
     });
 
-    this.setState({numberOfRevealedCells, numberOfDiscoveredGems});
+    this.setState({numberOfRevealedCells});
   }
 
   // HANDLE CELL CLICK
@@ -237,6 +250,7 @@ class App extends Component {
         }
       });
 
+      this.spendMoney(this.state.obeliskCost);
       this.increaseRevealedCellsCount();
       this.setState({playerBoard: board, numberOfFlags});
 
@@ -291,6 +305,48 @@ class App extends Component {
     this.increaseRevealedCellsCount();
   }
 
+  // Cell Out
+  cellOut(e, row, column) {
+    if (this.state.itemActive) {
+      const board = this.state.playerBoard;
+      const adjacentCells = this.getAdjacentCells(row, column);
+      adjacentCells.forEach(offsetCell => {
+        const row = offsetCell[0];
+        const column = offsetCell[1];
+
+        board[row][column].isHovered = false;
+        this.setState({playerBoard: board});
+      });
+    }
+  }
+
+  // Cell Hover
+  cellHover(e, row, column) {
+    if (this.state.itemActive) {
+      var hoverXOffset = column * 40;
+      var hoverYOffset = row * 40;
+
+      this.setState({hoverXOffset, hoverYOffset});
+    }
+  }
+
+  // Gem Click
+  gemClick(row, column) {
+    const playerBoard = this.state.playerBoard;
+    let numberOfDiscoveredGems = this.state.numberOfDiscoveredGems + 1;
+    let playerMoney = this.state.playerMoney + this.state.gemValue;
+
+    playerBoard[row][column].isGem = false;
+ 
+    this.setState({playerBoard, numberOfDiscoveredGems, playerMoney});
+  }
+ 
+  // Spend Money
+  spendMoney(cost) {
+    let spentMoney = this.state.spentMoney + cost;
+    this.setState({spentMoney});
+  }
+
   // Resolve cells with 0 adjacent bombs
   resolveCells() {
     while (this.state.unresolvedCells.length > 0) {
@@ -318,14 +374,101 @@ class App extends Component {
     }
   }
 
+  itemActivated(itemNumber) {
+    if (this.state.itemActive) {
+      this.setState({itemActive: false, itemNumber: `pattern-${itemNumber}`});
+    } else {
+      this.setState({itemActive: true, itemNumber: `pattern-${itemNumber}`});
+    }
+  }
+
   render() {
+    const playerMoney = (this.state.numberOfRevealedCells * this.state.cellValue) + (this.state.numberOfDiscoveredGems * this.state.gemValue) - this.state.spentMoney;
     return (
-      <div>
-        <p onClick={this.generateBoard}>New Game</p>
-        <p>Bombs Remaining: {this.state.numberOfBombs - this.state.numberOfFlags}</p>
-        <p>Revealed Cells: {this.state.numberOfRevealedCells}</p>
-        <p>Gems Discovered: {this.state.numberOfDiscoveredGems}</p>
-        <PlayerBoard playerBoard={this.state.playerBoard} cellClick={this.cellClick} />
+      <div className="desert-sweeper">
+        <div>
+          <div className="menu">
+            <p onClick={this.generateBoard}>New Game</p>
+            <p>Bombs Remaining: {this.state.numberOfBombs - this.state.numberOfFlags}</p>
+            <p>Revealed Cells: {this.state.numberOfRevealedCells}</p>
+            <div className="gems">
+              <img src="/../gem.gif" />
+              <p> {this.state.numberOfDiscoveredGems}/{this.state.numberOfGems}</p>
+            </div>
+            <p>Money: {playerMoney}</p>
+          </div>
+
+          <div className="game-area">
+            <div className={`hover-patterns ${this.state.itemNumber}`} style={{display: this.state.itemActive ? 'block' : 'none', left: this.state.hoverXOffset, top: this.state.hoverYOffset}}></div>
+
+            <PlayerBoard playerBoard={this.state.playerBoard} cellClick={this.cellClick} cellHover={this.cellHover} cellOut={this.cellOut} gemClick={this.gemClick} />
+          </div>
+          <div className="shop">
+            <h3>Shop</h3>
+            <ul>
+              <li>
+                <div onClick={() => this.itemActivated(1)}>
+                  <img src="/../item-patterns-1.png" />
+                </div>
+                <p>Item 1</p>
+              </li>
+              <li>
+                <div onClick={() => this.itemActivated(2)}>
+                  <img src="/../item-patterns-2.png" />
+                </div>
+                <p>Item 2</p>
+              </li>
+              <li>
+                <div onClick={() => this.itemActivated(3)}>
+                  <img src="/../item-patterns-3.png" />
+                </div>
+                <p>Item 3</p>
+              </li>
+              <li>
+                <div onClick={() => this.itemActivated(4)}>
+                  <img src="/../item-patterns-4.png" />
+                </div>
+                <p>Item 4</p>
+              </li>
+              <li>
+                <div onClick={() => this.itemActivated(5)}>
+                  <img src="/../item-patterns-5.png" />
+                </div>
+                <p>Item 5</p>
+              </li>
+              <li>
+                <div onClick={() => this.itemActivated(6)}>
+                  <img src="/../item-patterns-6.png" />
+                </div>
+                <p>Item 6</p>
+              </li>
+              <li>
+                <div onClick={() => this.itemActivated(7)}>
+                  <img src="/../item-patterns-7.png" />
+                </div>
+                <p>Item 7</p>
+              </li>
+              <li>
+                <div onClick={() => this.itemActivated(8)}>
+                  <img src="/../item-patterns-8.png" />
+                </div>
+                <p>Item 8</p>
+              </li>
+              <li>
+                <div onClick={() => this.itemActivated(9)}>
+                  <img src="/../item-patterns-9.png" />
+                </div>
+                <p>Item 9</p>
+              </li>
+              <li>
+                <div onClick={() => this.itemActivated(10)}>
+                  <img src="/../item-patterns-10.png" />
+                </div>
+                <p>Item 10</p>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     );
   }

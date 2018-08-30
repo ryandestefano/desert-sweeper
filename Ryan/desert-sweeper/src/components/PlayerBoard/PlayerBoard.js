@@ -20,6 +20,7 @@ class PlayerBoard extends React.Component {
                 adjacentBombs={cell.adjacentBombs}
                 isRevealed={cell.isRevealed}
                 isGem={cell.isGem}
+                isHovered={cell.isHovered}
                 isObelisk={cell.isObelisk}
                 nwRevealed={cell.nwRevealed}
                 nRevealed={cell.nRevealed}
@@ -30,6 +31,9 @@ class PlayerBoard extends React.Component {
                 swRevealed={cell.swRevealed}
                 wRevealed={cell.wRevealed}
                 cellClick={this.props.cellClick}
+                cellHover={this.props.cellHover}
+                cellOut={this.props.cellOut}
+                gemClick={this.props.gemClick}
               />
             );
           })}
@@ -41,7 +45,7 @@ class PlayerBoard extends React.Component {
 
   render() {
     return (
-      <div>{this.renderPlayerBoard()}</div>
+      <div className="player-board">{this.renderPlayerBoard()}</div>
     );
   }
 }

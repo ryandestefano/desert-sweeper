@@ -1,4 +1,5 @@
 import React from 'react';
+import Gem from '../Gem/Gem';
 
 class Cell extends React.Component {
   constructor(props) {
@@ -6,6 +7,8 @@ class Cell extends React.Component {
     this.cellClassNames = this.cellClassNames.bind(this);
     this.renderGem = this.renderGem.bind(this);
     this.handleCellClick = this.handleCellClick.bind(this);
+    this.handleCellHover = this.handleCellHover.bind(this);
+    this.handleCellOut = this.handleCellOut.bind(this);
   }
 
   cellClassNames() {
@@ -18,6 +21,9 @@ class Cell extends React.Component {
     }
     if (this.props.isRevealed && this.props.isGem) {
       className += ' gem';
+    }
+    if (this.props.isHovered) {
+      className += ' hovered';
     }
     if (this.props.isObelisk) {
       className += ' obelisk';
@@ -52,7 +58,7 @@ class Cell extends React.Component {
   renderGem() {
     if (this.props.isRevealed && this.props.isGem) {
       console.log('gem');
-      return <img src="/../gem.gif" />;
+      return <Gem gemClick={this.props.gemClick} row={this.props.row} column={this.props.column} />;
     }
   }
 
@@ -60,9 +66,17 @@ class Cell extends React.Component {
     this.props.cellClick(e, this.props.row, this.props.column);
   }
 
+  handleCellHover(e) {
+    this.props.cellHover(e, this.props.row, this.props.column);
+  }
+
+  handleCellOut(e) {
+    this.props.cellOut(e, this.props.row, this.props.column);
+  }
+
   render() {
     return (
-      <div className={this.cellClassNames()} onClick={this.handleCellClick}>
+      <div className={this.cellClassNames()} onClick={this.handleCellClick} onMouseOver={this.handleCellHover} onMouseOut={this.handleCellOut}>
         <span className="top-corners"></span>
         <span className="bottom-corners"></span>
         {this.renderGem()}

@@ -8,306 +8,402 @@ $water-border: #B4F0F0;
   box-sizing: border-box;
 }
 
-.row {
-  display: flex;
-  flex-direction: row;
-  background-color: $water;
-  .cell {
-    position: relative;
+body {
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 14px;
+  line-height: 1.5rem;
+
+  .desert-sweeper {
     display: flex;
-    align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    background-color: $desert;
-    font-weight: bold;
-    user-select: none;
-    &:after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      box-shadow: inset 1px 1px 0 rgba(100, 100, 100, .1);
-      pointer-events: none;
-    }
-    &.flagged {
-      &:after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: url("/../pyramid.png");
-        background-size: 100% 100%;
-      }
-    }
-
-    &.obelisk {
-      filter: hue-rotate(330deg);
-    }
-
-    span.top-corners,
-    span.bottom-corners {
-      position: absolute;
-      top: 0;
-      left: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      &:before,
-      &:after {
-        content: "";
-        position: absolute;
-        width: 50%;
-        height: 50%;
-        background-image: url("/../desert-sprite.png");
-        background-size: 1600% 200%;
-        background-position: -1100% 0;
-      }
-    }
-
-    span.top-corners {
-      &:before {
-        top: 0;
-        left: 0;
-      }
-      &:after {
-        top: 0;
-        right: 0;
-      }
-    }
-
-    span.bottom-corners {
-      &:before {
-        bottom: 0;
-        left: 0;
-      }
-      &:after {
-        right: 0;
-        bottom: 0;
-      }
-    }
+    background-color: $water;
+    text-align: center;
     
-    // North edge border highlight
-    &.n-revealed {
-      span.top-corners:before {
-        background-position: -400% 0;
-      }
-      span.top-corners:after {
-        background-position: -500% 0;
-      }
-      &.nw-revealed {
-        span.top-corners:before {
-          background-position: -200% 0; 
-        }
-      }
-      &.ne-revealed {
-        span.top-corners:after {
-          background-position: -300% 0;
-        }
-      }
-    }
-
-    // East edge border shadow
-    &.e-revealed {
-      span.top-corners:after {
-        background-position: -900% 0;
-      }
-      span.bottom-corners:after {
-        background-position: -900% -100%;
-      }
-      &.ne-revealed {
-        span.top-corners:after {
-          background-position: -700% 0;
-        }
-      }
-      &.se-revealed {
-        span.bottom-corners:after {
-          background-position: -700% -100%;
-        }
-      }
-    }
-
-    // South edge border shadow
-    &.s-revealed {
-      span.bottom-corners:after {
-        background-position: -500% -100%;
-      }
-      span.bottom-corners:before {
-        background-position: -400% -100%;
-      }
-      &.se-revealed {
-        span.bottom-corners:after {
-          background-position: -300% -100%;
-        }
-      }
-      &.sw-revealed {
-        span.bottom-corners:before {
-          background-position: -200% -100%;
-        }
-      }
-    }
-
-    // West edge border hightlight
-    &.w-revealed {
-      span.bottom-corners:before {
-        background-position: -800% -100%;
-      }
-      span.top-corners:before {
-        background-position: -800% 0;
-      }
-      &.nw-revealed {
-        span.top-corners:before {
-          background-position: -600% 0;
-        }
-      }
-      &.sw-revealed {
-        span.bottom-corners:before {
-          background-position: -600% -100%;
-        }
-      }
-    }
-
-    // Northwest corner rounding
-    &.n-revealed.w-revealed {
-      span.top-corners:before {
-        background-position: 0 0;
-      }
-    }
-
-    // Northeast corner rounding
-    &.n-revealed.e-revealed {
-      span.top-corners:after {
-        background-position: -100% 0;
-      }
-    }
-
-    // Southeast corner rounding
-    &.s-revealed.e-revealed {
-      span.bottom-corners:after {
-        background-position: -100% -100%;
-      }
-    }
-
-    // Southwest corner rounding
-    &.s-revealed.w-revealed {
-      span.bottom-corners:before {
-        background-position: 0 -100%;
-      }
-    }
-
-    // Water cells
-    &.cell-0,
-    &.cell-1,
-    &.cell-2,
-    &.cell-3,
-    &.cell-4,
-    &.cell-5,
-    &.cell-6,
-    &.cell-7,
-    &.cell-8 {
-      background-color: $water;
-      span.number {
-        position: relative;
-        z-index: 100;
-      }
-      span.top-corners {
-        &:before {
-          background-position: -1400% 0;
-        }
-        &:after {
-          background-position: -1500% 0;
-        }
-      }
-      span.bottom-corners {
-        &:before {
-          background-position: -1400% -100%;
-        }
-        &:after {
-          background-position: -1500% -100%;
-        }
-      }
-      &:after {
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-      }
-
-      &.gem {
+    .menu {
+      .gems {
         img {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
+          display: inline-block;
+          vertical-align: middle;
+          width: 40px;
+          height: auto;
+        }
+        
+        p {
+          display: inline-block;
+          vertical-align: middle;
         }
       }
+    }
 
-      &.nw-revealed {
-        span.top-corners:before {
-          background-position: -1200% 0;
-        }
-      }
-      &.n-revealed {
-        span.top-corners:before,
-        span.top-corners:after {
-          background-position: -1200% 0;
-        }
-      }
-      &.ne-revealed {
-        span.top-corners:after {
-          background-position: -1200% 0;
-        }
-      }
-      &.e-revealed {
-        span.top-corners:after,
-        span.bottom-corners:after {
-          background-position: -1200% 0;
-        }
-      }
-      &.se-revealed {
-        span.bottom-corners:after {
-          background-position: -1200% 0;
-        }
-      }
-      &.s-revealed {
-        span.bottom-corners:after,
-        span.bottom-corners:before {
-          background-position: -1200% 0;
-        }
-      }
-      &.sw-revealed {
-        span.bottom-corners:before {
-          background-position: -1200% 0;
-        }
-      }
-      &.w-revealed {
-        span.bottom-corners:before,
-        span.top-corners:before {
-          background-position: -1200% 0;
+    .shop {
+      display: inline-block;
+      vertical-align: top;
+      background-color: rgba(0, 0, 0, .75);
+      padding: 40px;
+      
+      ul {
+        li {
+          text-align: left;
+          margin: 0 0 15px 0;
+          div {
+            display: inline-block;
+            vertical-align: middle;
+            width: 30px;
+            height: 30px;
+            margin: 0 15px 0 0;
+
+            img {
+              width: 100%;
+              height: auto;
+            }
+          }
+
+          p {
+            display: inline-block;
+            vertical-align: middle;
+          }
         }
       }
     }
-    &.cell-0 {
-      span.number {
-        text-indent: -9999px;
+
+    .game-area {
+      position: relative;
+      display: inline-block;
+      overflow: hidden;
+
+      .hover-patterns {
+        position: absolute;
+        z-index: 200;
+        display: none;
+        width: 200px;
+        height: 200px;
+        background-image: url("/../hover-patterns.png");
+        background-size: auto 100%;
+        margin: -80px 0 0 -80px;
+        pointer-events: none;
+        &.pattern-1 {background-position: 0 0;}
+        &.pattern-2 {background-position: -100% 0;}
+        &.pattern-3 {background-position: -200% 0;}
+        &.pattern-4 {background-position: -300% 0;}
+        &.pattern-5 {background-position: -400% 0;}
+        &.pattern-6 {background-position: -500% 0;}
+        &.pattern-7 {background-position: -600% 0;}
+        &.pattern-8 {background-position: -700% 0;}
+        &.pattern-9 {background-position: -800% 0;}
+        &.pattern-10 {background-position: -900% 0;}
       }
     }
-    &.cell-1 {
-      color: #00c;
-    }
-    &.cell-2 {
-      color: #090;
-    }
-    &.cell-3 {
-      color: #c00;
+
+    .player-board {
+      .row {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+
+        .cell {
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 40px;
+          height: 40px;
+          background-color: $desert;
+          font-weight: bold;
+          user-select: none;
+          &:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            box-shadow: inset 1px 1px 0 rgba(100, 100, 100, .1);
+            pointer-events: none;
+          }
+          &.flagged {
+            &:after {
+              content: "";
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              background-image: url("/../pyramid.png");
+              background-size: 100% 100%;
+            }
+          }
+
+          &.hovered {
+            filter: hue-rotate(330deg);
+          }
+
+          &.obelisk {
+            filter: hue-rotate(330deg);
+          }
+
+          span.top-corners,
+          span.bottom-corners {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            &:before,
+            &:after {
+              content: "";
+              position: absolute;
+              width: 50%;
+              height: 50%;
+              background-image: url("/../desert-sprite.png");
+              background-size: 1600% 200%;
+              background-position: -1100% 0;
+            }
+          }
+
+          span.top-corners {
+            &:before {
+              top: 0;
+              left: 0;
+            }
+            &:after {
+              top: 0;
+              right: 0;
+            }
+          }
+
+          span.bottom-corners {
+            &:before {
+              bottom: 0;
+              left: 0;
+            }
+            &:after {
+              right: 0;
+              bottom: 0;
+            }
+          }
+          
+          // North edge border highlight
+          &.n-revealed {
+            span.top-corners:before {
+              background-position: -400% 0;
+            }
+            span.top-corners:after {
+              background-position: -500% 0;
+            }
+            &.nw-revealed {
+              span.top-corners:before {
+                background-position: -200% 0; 
+              }
+            }
+            &.ne-revealed {
+              span.top-corners:after {
+                background-position: -300% 0;
+              }
+            }
+          }
+
+          // East edge border shadow
+          &.e-revealed {
+            span.top-corners:after {
+              background-position: -900% 0;
+            }
+            span.bottom-corners:after {
+              background-position: -900% -100%;
+            }
+            &.ne-revealed {
+              span.top-corners:after {
+                background-position: -700% 0;
+              }
+            }
+            &.se-revealed {
+              span.bottom-corners:after {
+                background-position: -700% -100%;
+              }
+            }
+          }
+
+          // South edge border shadow
+          &.s-revealed {
+            span.bottom-corners:after {
+              background-position: -500% -100%;
+            }
+            span.bottom-corners:before {
+              background-position: -400% -100%;
+            }
+            &.se-revealed {
+              span.bottom-corners:after {
+                background-position: -300% -100%;
+              }
+            }
+            &.sw-revealed {
+              span.bottom-corners:before {
+                background-position: -200% -100%;
+              }
+            }
+          }
+
+          // West edge border hightlight
+          &.w-revealed {
+            span.bottom-corners:before {
+              background-position: -800% -100%;
+            }
+            span.top-corners:before {
+              background-position: -800% 0;
+            }
+            &.nw-revealed {
+              span.top-corners:before {
+                background-position: -600% 0;
+              }
+            }
+            &.sw-revealed {
+              span.bottom-corners:before {
+                background-position: -600% -100%;
+              }
+            }
+          }
+
+          // Northwest corner rounding
+          &.n-revealed.w-revealed {
+            span.top-corners:before {
+              background-position: 0 0;
+            }
+          }
+
+          // Northeast corner rounding
+          &.n-revealed.e-revealed {
+            span.top-corners:after {
+              background-position: -100% 0;
+            }
+          }
+
+          // Southeast corner rounding
+          &.s-revealed.e-revealed {
+            span.bottom-corners:after {
+              background-position: -100% -100%;
+            }
+          }
+
+          // Southwest corner rounding
+          &.s-revealed.w-revealed {
+            span.bottom-corners:before {
+              background-position: 0 -100%;
+            }
+          }
+
+          // Water cells
+          &.cell-0,
+          &.cell-1,
+          &.cell-2,
+          &.cell-3,
+          &.cell-4,
+          &.cell-5,
+          &.cell-6,
+          &.cell-7,
+          &.cell-8 {
+            background-color: $water;
+            span.number {
+              position: relative;
+              z-index: 100;
+            }
+            span.top-corners {
+              &:before {
+                background-position: -1400% 0;
+              }
+              &:after {
+                background-position: -1500% 0;
+              }
+            }
+            span.bottom-corners {
+              &:before {
+                background-position: -1400% -100%;
+              }
+              &:after {
+                background-position: -1500% -100%;
+              }
+            }
+            &:after {
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+            }
+
+            &.gem {
+              img {
+                position: absolute;
+                top: 0;
+                z-index: 200;
+                left: 0;
+                width: 100%;
+                height: 100%;
+              }
+            }
+
+            &.nw-revealed {
+              span.top-corners:before {
+                background-position: -1200% 0;
+              }
+            }
+            &.n-revealed {
+              span.top-corners:before,
+              span.top-corners:after {
+                background-position: -1200% 0;
+              }
+            }
+            &.ne-revealed {
+              span.top-corners:after {
+                background-position: -1200% 0;
+              }
+            }
+            &.e-revealed {
+              span.top-corners:after,
+              span.bottom-corners:after {
+                background-position: -1200% 0;
+              }
+            }
+            &.se-revealed {
+              span.bottom-corners:after {
+                background-position: -1200% 0;
+              }
+            }
+            &.s-revealed {
+              span.bottom-corners:after,
+              span.bottom-corners:before {
+                background-position: -1200% 0;
+              }
+            }
+            &.sw-revealed {
+              span.bottom-corners:before {
+                background-position: -1200% 0;
+              }
+            }
+            &.w-revealed {
+              span.bottom-corners:before,
+              span.top-corners:before {
+                background-position: -1200% 0;
+              }
+            }
+          }
+          &.cell-0 {
+            span.number {
+              text-indent: -9999px;
+            }
+          }
+          &.cell-1 {
+            color: #00c;
+          }
+          &.cell-2 {
+            color: #090;
+          }
+          &.cell-3 {
+            color: #c00;
+          }
+        }
+      }
     }
   }
 }
