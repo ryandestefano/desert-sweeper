@@ -2,6 +2,7 @@
   "name": "desert-sweeper",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://ryandestefano.github.io/desert-sweeper",
   "dependencies": {
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
