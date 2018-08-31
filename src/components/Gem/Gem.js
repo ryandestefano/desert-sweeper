@@ -11,8 +11,9 @@ class Gem extends React.Component {
   }
 
   render() {
+    const imagePath = process.env.REACT_APP_IMAGE_PATH;
     return (
-      <img src="/../gem.gif" onClick={this.handleGemClick} />
+      <img src={`${imagePath}/gem.gif`} onClick={this.handleGemClick} />
     );
   }
 }

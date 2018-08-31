@@ -384,6 +384,7 @@ class App extends Component {
 
   render() {
     const playerMoney = (this.state.numberOfRevealedCells * this.state.cellValue) + (this.state.numberOfDiscoveredGems * this.state.gemValue) - this.state.spentMoney;
+    const imagePath = process.env.REACT_APP_IMAGE_PATH;
     return (
       <div className="desert-sweeper">
         <div>
@@ -392,7 +393,7 @@ class App extends Component {
             <p>Bombs Remaining: {this.state.numberOfBombs - this.state.numberOfFlags}</p>
             <p>Revealed Cells: {this.state.numberOfRevealedCells}</p>
             <div className="gems">
-              <img src="/../gem.gif" />
+              <img src={`${imagePath}/gem.gif`} />
               <p> {this.state.numberOfDiscoveredGems}/{this.state.numberOfGems}</p>
             </div>
             <p>Money: {playerMoney}</p>
@@ -408,61 +409,61 @@ class App extends Component {
             <ul>
               <li>
                 <div onClick={() => this.itemActivated(1)}>
-                  <img src="/../item-patterns-1.png" />
+                  <img src={`${imagePath}/item-patterns-1.png`} />
                 </div>
                 <p>Item 1</p>
               </li>
               <li>
                 <div onClick={() => this.itemActivated(2)}>
-                  <img src="/../item-patterns-2.png" />
+                  <img src={`${imagePath}/item-patterns-2.png`} />
                 </div>
                 <p>Item 2</p>
               </li>
               <li>
                 <div onClick={() => this.itemActivated(3)}>
-                  <img src="/../item-patterns-3.png" />
+                  <img src={`${imagePath}/item-patterns-3.png`} />
                 </div>
                 <p>Item 3</p>
               </li>
               <li>
                 <div onClick={() => this.itemActivated(4)}>
-                  <img src="/../item-patterns-4.png" />
+                  <img src={`${imagePath}/item-patterns-4.png`} />
                 </div>
                 <p>Item 4</p>
               </li>
               <li>
                 <div onClick={() => this.itemActivated(5)}>
-                  <img src="/../item-patterns-5.png" />
+                  <img src={`${imagePath}/item-patterns-5.png`} />
                 </div>
                 <p>Item 5</p>
               </li>
               <li>
                 <div onClick={() => this.itemActivated(6)}>
-                  <img src="/../item-patterns-6.png" />
+                  <img src={`${imagePath}/item-patterns-6.png`} />
                 </div>
                 <p>Item 6</p>
               </li>
               <li>
                 <div onClick={() => this.itemActivated(7)}>
-                  <img src="/../item-patterns-7.png" />
+                  <img src={`${imagePath}/item-patterns-7.png`} />
                 </div>
                 <p>Item 7</p>
               </li>
               <li>
                 <div onClick={() => this.itemActivated(8)}>
-                  <img src="/../item-patterns-8.png" />
+                  <img src={`${imagePath}/item-patterns-8.png`} />
                 </div>
                 <p>Item 8</p>
               </li>
               <li>
                 <div onClick={() => this.itemActivated(9)}>
-                  <img src="/../item-patterns-9.png" />
+                  <img src={`${imagePath}/item-patterns-9.png`} />
                 </div>
                 <p>Item 9</p>
               </li>
               <li>
                 <div onClick={() => this.itemActivated(10)}>
-                  <img src="/../item-patterns-10.png" />
+                  <img src={`${imagePath}/item-patterns-10.png`} />
                 </div>
                 <p>Item 10</p>
               </li>
