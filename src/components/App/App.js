@@ -4,6 +4,7 @@ import ItemPatterns from '../../util/ItemPatterns';
 import './App.css';
 
 import PlayerBoard from '../PlayerBoard/PlayerBoard';
+import Shop from '../Shop/Shop';
 
 class App extends Component {
   constructor(props) {
@@ -406,101 +407,7 @@ class App extends Component {
 
             <PlayerBoard playerBoard={this.state.playerBoard} cellClick={this.cellClick} cellHover={this.cellHover} cellOut={this.cellOut} gemClick={this.gemClick} />
           </div>
-          <div className="shop">
-            <h3>Shop</h3>
-            <ul>
-              <li>
-                <div
-                  className={ItemPatterns.pattern_1.cost <= playerMoney ? 'active' : ''}
-                  onClick={() => this.itemActivated(1)}>
-                  <img src={`${imagePath}/item-patterns-1.png`} />
-                </div>
-                <p>Item 1</p>
-                <p>{ItemPatterns.pattern_1.cost}</p>
-              </li>
-              <li>
-                <div
-                  className={ItemPatterns.pattern_2.cost <= playerMoney ? 'active' : ''}
-                  onClick={() => this.itemActivated(2)}>
-                  <img src={`${imagePath}/item-patterns-2.png`} />
-                </div>
-                <p>Item 2</p>
-                <p>{ItemPatterns.pattern_2.cost}</p>
-              </li>
-              <li>
-                <div
-                  className={ItemPatterns.pattern_3.cost <= playerMoney ? 'active' : ''}
-                  onClick={() => this.itemActivated(3)}>
-                  <img src={`${imagePath}/item-patterns-3.png`} />
-                </div>
-                <p>Item 3</p>
-                <p>{ItemPatterns.pattern_3.cost}</p>
-              </li>
-              <li>
-                <div
-                  className={ItemPatterns.pattern_4.cost <= playerMoney ? 'active' : ''}
-                  onClick={() => this.itemActivated(4)}>
-                  <img src={`${imagePath}/item-patterns-4.png`} />
-                </div>
-                <p>Item 4</p>
-                <p>{ItemPatterns.pattern_4.cost}</p>
-              </li>
-              <li>
-                <div
-                  className={ItemPatterns.pattern_5.cost <= playerMoney ? 'active' : ''}
-                  onClick={() => this.itemActivated(5)}>
-                  <img src={`${imagePath}/item-patterns-5.png`} />
-                </div>
-                <p>Item 5</p>
-                <p>{ItemPatterns.pattern_5.cost}</p>
-              </li>
-              <li>
-                <div
-                  className={ItemPatterns.pattern_6.cost <= playerMoney ? 'active' : ''}
-                  onClick={() => this.itemActivated(6)}>
-                  <img src={`${imagePath}/item-patterns-6.png`} />
-                </div>
-                <p>Item 6</p>
-                <p>{ItemPatterns.pattern_5.cost}</p>
-              </li>
-              <li>
-                <div
-                  className={ItemPatterns.pattern_7.cost <= playerMoney ? 'active' : ''}
-                  onClick={() => this.itemActivated(7)}>
-                  <img src={`${imagePath}/item-patterns-7.png`} />
-                </div>
-                <p>Item 7</p>
-                <p>{ItemPatterns.pattern_7.cost}</p>
-              </li>
-              <li>
-                <div
-                  className={ItemPatterns.pattern_8.cost <= playerMoney ? 'active' : ''}
-                  onClick={() => this.itemActivated(8)}>
-                  <img src={`${imagePath}/item-patterns-8.png`} />
-                </div>
-                <p>Item 8</p>
-                <p>{ItemPatterns.pattern_8.cost}</p>
-              </li>
-              <li>
-                <div
-                  className={ItemPatterns.pattern_9.cost <= playerMoney ? 'active' : ''}
-                  onClick={() => this.itemActivated(9)}>
-                  <img src={`${imagePath}/item-patterns-9.png`} />
-                </div>
-                <p>Item 9</p>
-                <p>{ItemPatterns.pattern_9.cost}</p>
-              </li>
-              <li>
-                <div
-                  className={ItemPatterns.pattern_10.cost <= playerMoney ? 'active' : ''}
-                  onClick={() => this.itemActivated(10)}>
-                  <img src={`${imagePath}/item-patterns-10.png`} />
-                </div>
-                <p>Item 10</p>
-                <p>{ItemPatterns.pattern_10.cost}</p>
-              </li>
-            </ul>
-          </div>
+          <Shop playerMoney={playerMoney} itemActivated={this.itemActivated} />
         </div>
       </div>
     );
