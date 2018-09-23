@@ -51,6 +51,13 @@ body {
             width: 30px;
             height: 30px;
             margin: 0 15px 0 0;
+            opacity: .5;
+            pointer-events: none;
+
+            &.active {
+              opacity: 1;
+              pointer-events: auto;
+            }
 
             img {
               width: 100%;
@@ -61,6 +68,9 @@ body {
           p {
             display: inline-block;
             vertical-align: middle;
+            &:last-of-type {
+              margin: 0 0 0 20px;
+            }
           }
         }
       }

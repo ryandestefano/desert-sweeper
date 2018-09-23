@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import AdjacentCells from '../../util/AdjacentCells';
+import ItemPatterns from '../../util/ItemPatterns';
 import './App.css';
 
 import PlayerBoard from '../PlayerBoard/PlayerBoard';
@@ -28,7 +30,7 @@ class App extends Component {
       hoverYOffset: 0
     };
     this.generateBoard = this.generateBoard.bind(this);
-    this.getAdjacentCells = this.getAdjacentCells.bind(this);
+    this.getOffsetCells = this.getOffsetCells.bind(this);
     this.addBombs = this.addBombs.bind(this);
     this.addGems = this.addGems.bind(this);
     this.countAdjacentBombs = this.countAdjacentBombs.bind(this);
@@ -89,21 +91,20 @@ class App extends Component {
     return board;
   }
 
-  // GET ADJACENT CELLS
-  getAdjacentCells(row, column) {
-    const offsets = [ [-1, -1], [0, -1], [1, -1], [-1, 0], [1, 0], [-1, 1], [0, 1], [1, 1] ];
-    let adjacentCells = [];
+  // GET OFFSET CELLS
+  getOffsetCells(row, column, offsets) {
+    let offsetCells = [];
 
     offsets.forEach(offset => {
       const offsetRow = row + offset[0];
       const offsetColumn = column + offset[1];
 
       if (offsetRow >= 0 && offsetRow < this.state.numberOfRows && offsetColumn >= 0 && offsetColumn < this.state.numberOfColumns) {
-        adjacentCells.push([offsetRow, offsetColumn]);
+        offsetCells.push([offsetRow, offsetColumn]);
       }
     });
 
-    return adjacentCells;
+    return offsetCells;
   }
 
   // ADD BOMBS TO BOARD
@@ -148,7 +149,7 @@ class App extends Component {
     board.forEach(row => {
       row.forEach(cell => {
         let numberOfAdjacentBombs = 0;
-        const adjacentCells = this.getAdjacentCells(cell.row, cell.column);
+        const adjacentCells = this.getOffsetCells(cell.row, cell.column, AdjacentCells);
 
         adjacentCells.forEach(offsetCell => {
           if (board[offsetCell[0]][offsetCell[1]].isBomb) {
@@ -233,14 +234,15 @@ class App extends Component {
       return;
     }
 
-    // Build Obelisk
-    if (e.altKey && !cell.isRevealed) {
-      const adjacentCells = this.getAdjacentCells(row, column);
+    // Use Item
+    if (this.state.itemActive) {
+      const pattern = `pattern_${this.state.itemNumber}`;
       let numberOfFlags = this.state.numberOfFlags;
 
-      adjacentCells.forEach(offsetCell => {
+      const offsetCells = this.getOffsetCells(row, column, ItemPatterns[pattern].offsets);
+
+      offsetCells.forEach(offsetCell => {
         const cell = board[offsetCell[0]][offsetCell[1]];
-        cell.isObelisk = true;
         if (cell.isBomb && !cell.isFlagged) {
           cell.isFlagged = true;
           numberOfFlags++;
@@ -250,9 +252,9 @@ class App extends Component {
         }
       });
 
-      this.spendMoney(this.state.obeliskCost);
+      this.spendMoney(ItemPatterns[pattern].cost);
       this.increaseRevealedCellsCount();
-      this.setState({playerBoard: board, numberOfFlags});
+      this.setState({playerBoard: board, numberOfFlags, itemActive: false});
 
       return;
     }
@@ -267,7 +269,7 @@ class App extends Component {
       cell.isStart = true;
       cell.isRevealed = true;
       cell.isResolved = true;
-      const adjacentCells = this.getAdjacentCells(cell.row, cell.column);
+      const adjacentCells = this.getOffsetCells(cell.row, cell.column, AdjacentCells);
 
       adjacentCells.forEach(offsetCell => {
         board[offsetCell[0]][offsetCell[1]].isStart = true;
@@ -309,7 +311,7 @@ class App extends Component {
   cellOut(e, row, column) {
     if (this.state.itemActive) {
       const board = this.state.playerBoard;
-      const adjacentCells = this.getAdjacentCells(row, column);
+      const adjacentCells = this.getOffsetCells(row, column, AdjacentCells);
       adjacentCells.forEach(offsetCell => {
         const row = offsetCell[0];
         const column = offsetCell[1];
@@ -352,7 +354,7 @@ class App extends Component {
     while (this.state.unresolvedCells.length > 0) {
       const cell = this.state.unresolvedCells[0];
       const board = this.state.playerBoard;
-      const adjacentCells = this.getAdjacentCells(cell[0], cell[1]);
+      const adjacentCells = this.getOffsetCells(cell[0], cell[1], AdjacentCells);
 
       adjacentCells.forEach(offsetCell => {
         const row = offsetCell[0];
@@ -376,9 +378,9 @@ class App extends Component {
 
   itemActivated(itemNumber) {
     if (this.state.itemActive) {
-      this.setState({itemActive: false, itemNumber: `pattern-${itemNumber}`});
+      this.setState({itemActive: false, itemNumber});
     } else {
-      this.setState({itemActive: true, itemNumber: `pattern-${itemNumber}`});
+      this.setState({itemActive: true, itemNumber});
     }
   }
 
@@ -400,7 +402,7 @@ class App extends Component {
           </div>
 
           <div className="game-area">
-            <div className={`hover-patterns ${this.state.itemNumber}`} style={{display: this.state.itemActive ? 'block' : 'none', left: this.state.hoverXOffset, top: this.state.hoverYOffset}}></div>
+            <div className={`hover-patterns pattern-${this.state.itemNumber}`} style={{display: this.state.itemActive ? 'block' : 'none', left: this.state.hoverXOffset, top: this.state.hoverYOffset}}></div>
 
             <PlayerBoard playerBoard={this.state.playerBoard} cellClick={this.cellClick} cellHover={this.cellHover} cellOut={this.cellOut} gemClick={this.gemClick} />
           </div>
@@ -408,64 +410,94 @@ class App extends Component {
             <h3>Shop</h3>
             <ul>
               <li>
-                <div onClick={() => this.itemActivated(1)}>
+                <div
+                  className={ItemPatterns.pattern_1.cost <= playerMoney ? 'active' : ''}
+                  onClick={() => this.itemActivated(1)}>
                   <img src={`${imagePath}/item-patterns-1.png`} />
                 </div>
                 <p>Item 1</p>
+                <p>{ItemPatterns.pattern_1.cost}</p>
               </li>
               <li>
-                <div onClick={() => this.itemActivated(2)}>
+                <div
+                  className={ItemPatterns.pattern_2.cost <= playerMoney ? 'active' : ''}
+                  onClick={() => this.itemActivated(2)}>
                   <img src={`${imagePath}/item-patterns-2.png`} />
                 </div>
                 <p>Item 2</p>
+                <p>{ItemPatterns.pattern_2.cost}</p>
               </li>
               <li>
-                <div onClick={() => this.itemActivated(3)}>
+                <div
+                  className={ItemPatterns.pattern_3.cost <= playerMoney ? 'active' : ''}
+                  onClick={() => this.itemActivated(3)}>
                   <img src={`${imagePath}/item-patterns-3.png`} />
                 </div>
                 <p>Item 3</p>
+                <p>{ItemPatterns.pattern_3.cost}</p>
               </li>
               <li>
-                <div onClick={() => this.itemActivated(4)}>
+                <div
+                  className={ItemPatterns.pattern_4.cost <= playerMoney ? 'active' : ''}
+                  onClick={() => this.itemActivated(4)}>
                   <img src={`${imagePath}/item-patterns-4.png`} />
                 </div>
                 <p>Item 4</p>
+                <p>{ItemPatterns.pattern_4.cost}</p>
               </li>
               <li>
-                <div onClick={() => this.itemActivated(5)}>
+                <div
+                  className={ItemPatterns.pattern_5.cost <= playerMoney ? 'active' : ''}
+                  onClick={() => this.itemActivated(5)}>
                   <img src={`${imagePath}/item-patterns-5.png`} />
                 </div>
                 <p>Item 5</p>
+                <p>{ItemPatterns.pattern_5.cost}</p>
               </li>
               <li>
-                <div onClick={() => this.itemActivated(6)}>
+                <div
+                  className={ItemPatterns.pattern_6.cost <= playerMoney ? 'active' : ''}
+                  onClick={() => this.itemActivated(6)}>
                   <img src={`${imagePath}/item-patterns-6.png`} />
                 </div>
                 <p>Item 6</p>
+                <p>{ItemPatterns.pattern_5.cost}</p>
               </li>
               <li>
-                <div onClick={() => this.itemActivated(7)}>
+                <div
+                  className={ItemPatterns.pattern_7.cost <= playerMoney ? 'active' : ''}
+                  onClick={() => this.itemActivated(7)}>
                   <img src={`${imagePath}/item-patterns-7.png`} />
                 </div>
                 <p>Item 7</p>
+                <p>{ItemPatterns.pattern_7.cost}</p>
               </li>
               <li>
-                <div onClick={() => this.itemActivated(8)}>
+                <div
+                  className={ItemPatterns.pattern_8.cost <= playerMoney ? 'active' : ''}
+                  onClick={() => this.itemActivated(8)}>
                   <img src={`${imagePath}/item-patterns-8.png`} />
                 </div>
                 <p>Item 8</p>
+                <p>{ItemPatterns.pattern_8.cost}</p>
               </li>
               <li>
-                <div onClick={() => this.itemActivated(9)}>
+                <div
+                  className={ItemPatterns.pattern_9.cost <= playerMoney ? 'active' : ''}
+                  onClick={() => this.itemActivated(9)}>
                   <img src={`${imagePath}/item-patterns-9.png`} />
                 </div>
                 <p>Item 9</p>
+                <p>{ItemPatterns.pattern_9.cost}</p>
               </li>
               <li>
-                <div onClick={() => this.itemActivated(10)}>
+                <div
+                  className={ItemPatterns.pattern_10.cost <= playerMoney ? 'active' : ''}
+                  onClick={() => this.itemActivated(10)}>
                   <img src={`${imagePath}/item-patterns-10.png`} />
                 </div>
                 <p>Item 10</p>
+                <p>{ItemPatterns.pattern_10.cost}</p>
               </li>
             </ul>
           </div>

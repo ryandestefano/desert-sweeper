@@ -31,13 +31,20 @@ body {
           vertical-align: middle;
           width: 30px;
           height: 30px;
-          margin: 0 15px 0 0; }
+          margin: 0 15px 0 0;
+          opacity: .5;
+          pointer-events: none; }
+          body .desert-sweeper .shop ul li div.active {
+            opacity: 1;
+            pointer-events: auto; }
           body .desert-sweeper .shop ul li div img {
             width: 100%;
             height: auto; }
         body .desert-sweeper .shop ul li p {
           display: inline-block;
           vertical-align: middle; }
+          body .desert-sweeper .shop ul li p:last-of-type {
+            margin: 0 0 0 20px; }
     body .desert-sweeper .game-area {
       position: relative;
       display: inline-block;
