@@ -2,7 +2,7 @@
 
 ## Try it out
 
-Desert Sweeper is currently unfinished and only works on desktop at the moment, but you can try the in-progress game at: https://ryandestefano.github.io/magic-mixtape
+Desert Sweeper is currently unfinished and only works on desktop at the moment, but you can try the in-progress game at: https://ryandestefano.github.io/desert-sweeper
 
 * Click `New Game` to begin
 * Click a cell to reveal the number of bombs surrounding it
